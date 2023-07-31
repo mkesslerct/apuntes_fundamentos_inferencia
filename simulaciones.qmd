@@ -1,0 +1,122 @@
+# Simulaciones
+## Generadores de números seudo-aleatorios.
+Todos los lenguages de programación ofrecen funciones o métodos que permiten generar realizaciones de distintas distribuciones de probabilidad, permitiendo simular con el ordenador un comportamiento aparentemente "aleatorio".  
+Para ello usan algoritmos que generan largas secuencia de enteros representados con un determinado número de bits (32 bits, 64 bits, etc...). Estos algoritmos generan lo que llamamos valores que calificamos de seudo-aleatorios, y se basan en relaciones recursivas: para calcular el valor de la secuencia, el algoritmo aplica una transformación a los valores que lo preceden. Aunque hablamos de valores seudo-aleatorios, en realidad, los métodos usados son totalmente deterministas: conociendo el valor inicial y la transformación, es posible reconstruir toda la secuencia. Sin embargo, el comportamiento de los enteros generados imita el de secuencias de números aleatorios e independientes. Si desconocemos la transformación, los valores futuros deben ser impredecibles conociendo solamente los valores pasados. Además las secuencias generadas son tan largas, que en la práctica no aparece ninguna patrón de periodicidad en los números. 
+
+:::{.callout-note }
+- Puesto que la transformación es dada, la secuencia producida está totalmente determinada por la elección de su valor inicial. Este se fija para la generación numérica con ordenador a través de lo que llamamos la semilla. Los lenguages de programación, al invocar las funciones para generar números "aleatorios", usa por defecto una semilla calculada usando el reloj interno del ordenador. Sin embargo el usuario tiene la opción de especificar la semilla. En `R`, por ejemplo, se hace con la función `set.seed`.  Resulta muy útil la posibilidad de fijar la semilla puesto que ofrece la opción, si uno lo desea, de reproducir un conjunto de simulaciones.
+:::
+
+Se han propuesto muchos algoritmos para la generación de números seudo-aleatorios. Entre ellos, se pueden mencionar el de Mersenne-Twister, que es el utilizado por defecto por `R`, o la familia PGC que el utilizado por la librería científica `numpy` de Python. La página [pcg-random.org](https://www.pcg-random.org/) contiene más información sobre estos y otros algoritmos y son numerosos los estudios comparativos sobre sus propiedades.  
+
+:::{.callout-note}
+## Algunas características importantes de un generador:
+- La precisión de cada entero de la secuencia, es decir el número de bits usados en su representación 
+- Su periodicidad: es el número total de elementos que contiene la secuencia antes de volver a encontrar el valor inicial. 
+- Su caracter imprevisible: la dificultad de predecir el siguiente valor a partir de sus predecesores.
+- Su comportamiento ante test estadísticos de uniformidad y de independencia. Entre las baterías de tests más comunes están por ejemplo los de TestU01, que presenta los conjuntos de tests SimpleCrush,  Crush y BigCrush.
+- Su velocidad de computación.
+:::
+
+Como ejemplo, el algoritmo de Mersenne-Twister tiene una periodicidad de $2^{19937}$, un número tan grande que es siquiera imposible imaginarse. En cambio falla en parte de los tests de las baterías de TestU01 Crush y BigCrush, y presenta una cierta predictibilidad, para más detalles ver la página [pcg-random.org](https://www.pcg-random.org/) .
+
+## Simulación de una distribución uniforme.
+Sin duda es esencial ser capaz de generar valores simulados de una distribución uniforme que toma sus valores en $[0, 1]$, en particular porque son el punto de partida de procedimientos para la generación de otras distribuciones de probabilidad.  
+
+:::{.callout-tip}
+## Cómo generar valores flotantes en $[0, 1)$ a partir de enteros seudo-aleatorios
+La mayoría de procedimientos para la generación de valores en $[0, 1)$ se basa en la división de los enteros generados por el entero seudo-aleatorio más grande que puede generar el algoritmo, lo que podemos escribir informalmente como $rand() / RAND\_MAX$, si $rand$ es la función que va generando enteros seudo-aleatorios y $RAND\_MAX$ es el entero más grande que puede producir.
+:::
+
+Insistimos en que la secuencia uniforme generada no es, de ninguna manera, aleatoria. Sin embargo, al producir muestras indistinguibles de un conjunto de realizaciones independientes de una distribución uniforme, nos sirve como tal a efectos de simulación numérica.
+
+En `R`, la función para generar valores de una distribución uniforme es `runif`, que admite como argumentos el número de valores deseados así como los valores extremos del intervalo soporte de la distribución (por defecto 0 y 1). 
+
+```{r}
+#| echo: true
+#| code-fold: false
+runif(5)
+```
+
+Si ejecutáis esta misma instrucción, obtendréis valores diferentes, puesto que la semilla ha sido escogido por el ordenador y es diferente de la usada aquí. Sin embargo, si fijamos la misma semilla, podréis reproducir las mismas simulaciones:
+
+```{r}
+#| echo: true
+#| code-fold: false
+set.seed(314159)
+runif(5)
+```
+
+:::{.callout-note}
+El valor concreto de la semilla no es relevante, se suele escoger un valor sencillo de leer o recordar. Algunas personas usan la fecha del día.
+:::
+
+## Simulación basada en la transformada inversa.
+
+Para cualquier distribución, la función de distribución acumulada $F$ es creciente y continua por la derecha. Introducimos su inversa generalizada, al considerar para una probabilidad $p$, el valor de $x$ más pequeño para el cual la función $F$ supere $p$:
+
+:::{#def-inversa-generalizada}
+Consideramos, para una función de distribución acumulada $F$, su inversa generalizada definida como:
+$$F^{-1}(u)={\mathop{inf}} \left\{x: F(x)\geq p\right\}.$$
+:::
+
+Por la definición de esta inversa generalizada, se cumple que $F(F^{-1}(p))\geq p$)$ así como $F^{-1}(F(x))\geq x$. Deducimos el siguiente lema que nos proporciona una manera de simular de una distribución si conocemos su función de distribución acumulada:
+
+:::{#lem-simulacion-inversa}
+Si $X$ es una variable aleatoria con función de distribución $F$, y $U$ una variable con distribución uniforme, la variable $F^{-1}(U)$ tiene la misma distribución que $X$.
+:::
+
+::: {.proof}
+La demostración se obtiene al  constatar: 
+\begin{align}
+F^{-1}(U)\leq x \Longrightarrow F(F^{-1}(U))\leq F(x)\Longrightarrow U\leq F(x),\\
+U\leq F(x) \Longrightarrow x \geq F^{-1}(U).
+\end{align}
+Para demostrar la primera implicación, se usa en primer lugar el hecho de que $F$ es creciente y en segundo lugar la definición de la inversa generalizada de $F$, que implica que $U\leq F(F^{-1}(U))$. En cuanto a la segunda, es una consecuencia de definición de $F^{-1}$.  Se cumple por lo tanto 
+$$ F^{-1}(U)\leq x\Leftrightarrow U\leq F(x),$$
+lo que se traduce en 
+$$\mathbb{P}(F^{-1}(U)\leq x)= \mathbb{P}(U\leq F(x)) = F(x).$$
+:::
+
+### Aplicación: simulación de una distribución exponencial {.unnumbered}
+La distribución exponencial de parámetro $\lambda > 0$ tiene por función de distribución acumulada $F(x) = 1 - \mathop{e}^{-\lambda x}$, que es una función biyectiva de $[0, +\infty[$ en $[0, 1[$. La inversa generalizada de $F$ es por lo tanto su inversa: $F^{-1}(p)= - \frac {\ln(1-p)} \lambda$. Deducimos que para simular de una distribución exponencial de parámetro $\lambda$, basta con simular de una distribución uniforme $U$ y calcular
+$$- \frac {\ln(1-U)} \lambda.$$
+
+## Simulación de una distribución Normal
+
+La distribución Normal es sin duda una de las distribuciones más usadas, y es importante disponer de un algoritmo para simularla. Su distribución acumulada no admite una expresión analítica, por lo que se recurre a procedimientos específicos para ello. El más conocido es el de Box-Muller, que usa el siguiente resultado:
+
+:::{#prp-box-muller}
+Sean $X_1$ y $X_2$, dos variables normales estándar independientes. Si expresamos el par $(X_1, X_2)$ en coordenadas polares, es decir, introducimos $r\geq 0$ y $\theta\in [0, 2\pi[$ tal que $X_1=r\cos (\theta)$ y $X_2=r\sin (\theta)$, se cumple:
+
+1.  $r^2 = (X_1^2 + X_2^2)\sim \mathcal{E}xp(1)$,
+2. $\theta\sim \mathcal{U}([0, 2\pi[).$
+3. $r$ y $\theta$ son independientes.
+
+:::
+
+::: {.proof}
+Puesto que $r^2$ es la suma de dos variables ji-cuadrado independientes con 1 grado de libertad, su distribución es una ji-cuadrado con dos grados de libertad, que es una distribución exponencial con parámetro $\lambda=1$, lo que demuestra el primer punto.  
+En cuanto al segundo punto, un cambio estándar de coordenadas cartesianas a polares nos lleva a obtener la densidad conjunta de $(r, \theta)$:
+$$f_{r, \theta}(r, \theta) = \frac 1 {2\pi} r\cdot  e^{-r^2/2}, \quad r>0, \theta\in [0, 2\pi[. $$ 
+Deducimos que la densidad marginal de $\theta$ es constante en $[0, 2\pi[$, lo que demuestra el segundo punto. Además puesto que la densidad conjunta de $(r, \theta)$ es el producto de las densidades marginales, deducimos el punto 3.
+:::
+
+Puesto que sabemos de la sección anterior que una distribución exponencial de parámetro $\lambda$ se puede simular como $- \frac {\ln(1-U)} \lambda,$ usando una distribución uniforme $U$, deducimos el siguiente algoritmo para la generación de valores de variables normales estándar: 
+
+:::{.callout-tip}
+# Procedimiento de Box-Muller
+Para generar valores de variables normales estándar, seguimos los siguientes pasos:
+
+1. Generamos valores de variables uniformes independientes $U_1$ y $U_2$.
+2. Los valores 
+\begin{align*}
+X_1 &=& \sqrt{- \ln(1-U_1)}\cos (2\pi U_2)\\
+X_2 &=& \sqrt{- \ln(1-U_1)}\sin (2\pi U_2),\\
+\end{align*}
+provienen de variables normales estándar independientes.
+:::
+Para simular de una variable normal multidimensional con una matriz de covarianza y vector de media arbitrarios, usamos el hecho de que se puede deducir como una combinación lineal de variables normales estándar independientes. 
+
+## Simulación de una distribución marginal que se expresa usando una distribución condicionada. 
+

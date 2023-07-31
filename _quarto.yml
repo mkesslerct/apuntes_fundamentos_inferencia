@@ -1,0 +1,43 @@
+project:
+  type: book
+  output-dir: _book
+
+lang: es
+
+number-depth: 3
+
+code-fold: true
+
+book:
+  title: "Fundamentos de inferencia"
+  author: "Félix Belzunce & Mathieu Kessler"
+  search: true
+  repo-url: https://github.com/mkesslerct/fundamentos_inferencia
+  repo-actions: [edit]
+  downloads: [pdf, epub]
+  chapters:
+    - index.qmd
+    - 01-distribucion_en_el_muestreo.qmd
+    - 02-estimacion.qmd
+    - 03-intervalos.qmd
+    - 04-contrastes.qmd
+    - 05-inferencia-bayesiana.qmd
+    - 06-muestreo-poblaciones-finitas.qmd
+    - 07-simulacion.qmd
+    - references.qmd
+  appendices:
+    - simulaciones.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: 
+      light: flatly
+      dark: darkly
+  pdf:
+    documentclass: scrreprt
+    echo: false
+
+
+

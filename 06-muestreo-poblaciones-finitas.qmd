@@ -1,0 +1,868 @@
+# Fundamentos de muestreo en poblaciones finitias
+
+El enfoque en este contexto difiere de la inferencia estadística clásica
+que hemos visto en los apartados anteriores. Nuestro objeto de estudio
+es una variable o variables asociadas a una **población finita**, es
+decir un conjunto finito de elementos o unidades, la cual denotaremos
+por $E$, el tamaño de la población lo denotaremos por $N$ y sus
+elementos por $e_1,e_2,...,e_N$, es decir
+$$E=\left\{ e_1,e_2,...,e_N\right\} .$$
+
+En ocasiones, dado que los elementos están numerados, nos referiremos al
+elemento en términos de su subindice, es decir para referirnos al
+elemento o unidad $e_i$ nos referiremos al elemento $i,$ y por tanto
+tendremos que $E=\{1,2,...,N\}$.
+
+Usualmente se dispone de una lista donde están identificados todos los
+elementos de la población, y esta lista suele conocerse por el nombre de
+**marco**.
+
+Asociadas a estos elementos tenemos una serie de variables que serán el
+objeto de estudio. Si denotamos por $X$ la variable objeto de estudio
+esta tomará un valor $X_i$ para cada elemento $e_i$ de la población $E$.
+Es decir la variable $X$ tomará el conjunto de valores
+$$X=\left\{ X_1,X_2,...,X_N\right\} ,$$
+
+Usualmente lo que interesa no es conocer el total de los valores que
+toma esa variable sino medidas asociadas a la variable, que serán
+función de los valores que toma la variable, es decir
+$$\theta (X)=f(X_1,X_2,...,X_N).$$ que serán valores fijos, es decir, no
+tratamos con una variable aleatoria.
+
+En el caso de variables cuantitativas la medida de mayor interés es la
+**media poblacional:** $$\overline{X}=\frac{\sum_{i=1}^NX_i}N.$$
+
+En el caso de variables cualitativas dicotómicas, es decir que toma dos
+valores $A$ y $\overline{A}$ mutuamente excluyentes las medidas de mayor
+interés asociadas a este tipo de variables son el **total poblacional:**
+$$N_A=\text{número de elementos de }E\text{ que presentan la
+ carácteristica }A$$ y la **proporción poblacional:**
+$$p_A=\frac{N_A}N.$$
+
+Observar que lo anterior se puede modelizar mediante una variable
+cuantitativa que tome los valores 0 y 1 según el elemento tome el valor
+$\overline{A}$ o $A$. Con lo que
+$$N_A=\sum_{i=1}^NX_i\text{ y }p_A=\frac{N_A}N=\frac{\sum_{i=1}^NX_i}N=
+ \overline{X}\text{,}$$ es decir la proporción puede ser expresada
+también como una media.
+
+Adicionalmente y de forma auxiliar (aunque para un análisis completo de
+la variable también es deseable estudiarla) se encuentra la **varianza
+poblacional:**
+$$s_X^2=\frac{\sum_{i=1}^N\left( X_i-\overline{X}\right) ^2}N.$$
+
+Como hemos dicho estamos interesados en conocer los valores que toman
+esas medidas. Para ello el procedimiento lógico sería obtener todos los
+valores de la variable (es decir el valor de $X$ para todos los
+elementos de la población) y calcular las medidas anteriores. Este
+proceso es lo que se conoce como **censo**. Evidentemente este proceso
+puede resultar muy costoso cuando el tamaño de la población a estudiar
+es suficientemente elevado. Observar que aunque pueda parecer que es
+imposible llevar a la práctica un censo, eso es lo que es realiza en
+unas elecciones. Se obtiene el voto para todo elemento de la población
+en disposición de votar. Como hemos dicho este proceso de convocar
+\"elecciones\" cada vez que se quiera conocer el valor de alguna medida
+asociada a una variable es imposible por lo que el procedimiento que se
+sigue es el de obtener información de la medida a partir de un
+subconjunto de elementos de la población que se conoce por el nombre de
+**muestra de la población.** A partir de esta muestra se obtiene
+información sobre las medidas asociadas a las variables de estudio.
+
+Toda muestra $m$ es un subconjunto de $E$ $(m\subseteq E)$, donde no
+interviene el orden de los elementos y salvo que se diga lo contrario no
+se presenta ningún elemento repetido. Por tanto una muestra $m$ es un
+elemento del conjunto de todos los subconjuntos de $E$ que llamaremos
+**espacio muestral universal**, que denotaremos por $M_E$ y cuyo
+cardinal es $\sharp E=2^N$.
+
+En general es dificil trabajar con todas las posibles muestras de $E$ y
+además existen muestras que claramente no interesan, como es el caso de
+muestras pequeñas, por lo que se trabaja con conjuntos más reducidos de
+muestras. Denotaremos por $M$ el conjunto de muestras con el que
+trabajaremos y lo llamaremos **espacio muestral**.
+
+Veamos algunos ejemplos de espacios muestrales:
+
+::: {#exm-label0}
+Sea $E=\{1,2,3\}$, espacios muestrales asociados a esta población serí
+an
+
+a\) $M_1=\{\{2\},\{1,3\},\}$
+
+b\) $M_2=\{\{1,2\},\{1,3\},\{2,3\}\}$
+
+c\) $M_3=\{\{1,2\},\{1,2,3\}\}$
+
+d) $M_E=\{\emptyset ,\{1\},\{2\},\{3\},\{1,2\},\{1,3\},\{2,3\},\{1,2,3\}\}$
+:::
+
+El total de muestras en $M$ lo denotaremos por $n(M)$ y por tanto
+$M=\{m_1,m_2,...,$ $m_{n(M)}\}$. El total de elementos de una muestra lo
+denotaremos por $n(m)$ y en este caso tendremos que
+$m=\{e_{i_1},e_{i_2},...,e_{i_{n(m)}}\}$.
+
+El proceso entonces, dada una población finita $E$, es considerar un
+conjunto de muestras $M,$ de esa población $E,$ que llamaremos espacio
+muestral, de este espacio muestral obtendremos una muestra $m$ y partir
+de esta obtendremos información sobre el parámetro $\theta (X)$ en que
+estemos interesado.
+
+Sin embargo para que sea posible obtener información sobre el parámetro
+$\theta (X)$ a partir de $m$, va a ser necesario e imprescindible que la
+selección de $m$ se haga por un mecanismo aleatorio definido. Es decir
+sobre $M$ habrá que definir un probabilidad discreta y de acuerdo a esta
+ley de azar seleccionaremos nuestra muestra. Por tanto necesitamos tener
+definida una función $$p:M\longrightarrow [0,1]$$ tal que
+
+i\) $p(m)>0$ $\forall m\in M$,
+
+ii\) $\sum_{m\in M}p(m)=1$.
+
+Fijada esta probabilidad discreta el par $(M,p)$ se llama **diseño
+muestral.**
+
+Vamos a ver ahora un diseño muestral de especial relevancia.
+
+::: {#exm-label1}
+**Muestreo aleatorio simple (MAS)**: En este caso partimos de una
+población $E=\{1,2,...,N\}$ donde el espacio muestral va a estar formado
+por todas las muestras de tamaño fijo $n$. Es decir,
+$M_E=\{\left. n\in M_E\right| n(m)=n\}$. Sobre este espacio muestral
+consideraremos una probabilidad discreta con la misma probabilidad para
+todas las muestras es decir
+$$p(m)=\frac 1{\sharp M_E}=\frac 1{\binom Nn}\text{.}$$
+
+Este diseño muestral se conoce como **muestreo aleatorio simple** y lo
+denotaremos por $MAS(N,n)$.
+:::
+
+Visto esto podemos pasar entonces a definir las últimas nociones previas
+a la estimación de parámetros.
+
+::: {#def-label0}
+Se llama **probabilidad de inclusión de primer orden** del elemento
+$e_i,$ a la probabilidad de que el elemento $e_i$ se encuentre en una
+muestra seleccionada de $M$ de acuerdo al mecanismo aleatorio definido
+por el diseño muestral $(M,p)$, y se denota por $p_i$, es decir
+$$p_i=\sum_{m\in M,\text{ }e_i\in m}p(m).$$
+:::
+
+Observamos que si dado $e_i\in E$, existe $m\in M$, tal que $e_i\in m$,
+entonces $p_i\neq 0.$
+
+::: {#def-label1}
+Se llama **probabilidad de inclusión de segundo orden** de los elementos
+$e_i$ y $e_j,$ con $i\neq j$, a la probabilidad de que estos dos
+elementos se encuentren en muestra seleccionada de $M$ de acuerdo al
+mecanismo aleatorio definido por el diseño muestral $(M,p)$, y se denota
+por $p_{ij}$, es decir
+$$p_{ij}=\sum_{m\in M,\text{ }e_i,e_j\in m}p(m).$$
+:::
+
+Para el caso en que $i=j$ fijaremos la siguiente notación:
+$$p_{ii}=p_i.$$
+
+En el caso en que $p_{ij}>0$ para todo $e_i,e_j\in E$, se dice que es un
+**diseño muestral cuantificable.**
+
+::: {#exm-label2}
+**MAS(N,n)**: Para las probabilidades de inclusión de primer orden
+tenemos
+$$p_i=\frac{\text{número de muestas que coontiene al elemento }i}{\binom Nn}=
+ \frac{\binom{N-1}{n-1}}{\binom Nn}=\frac{(N-1)!n!(N-n)!}{(n-1)!(N-n)!N!}
+ =\frac nN.$$
+
+Este valor lo denotaremos por $f$, es decir $f=n/N$ y se denomina
+**fracción del muestreo**.
+
+Para las probabilidades de inclusión de segundo orden de forma análoga
+tendremos
+$$p_{ij}=\frac{\binom{N-2}{n-2}}{\binom Nn}=\frac{n(n-1)}{N(N-1)}.$$
+:::
+
+Por último vemos un resultado técnico.
+
+::: {#prp-label0}
+Sea $(M,p)$ un diseño muestral de tamaño fijo igual a $n$, entonces se
+verifica:
+
+a\) $\sum_{i=1}^Np_i=n$
+
+b\) $\sum_{j=1}^Np_{ij}=np_i.$
+:::
+
+## Estimación de parámetros
+
+Pasamos entonces a uno de los objetivos principales que es el de la
+estimación de parámetros.
+
+Hay que señalar en primer lugar que la estimación de parámetros en el
+caso de poblaciones finitas y dado un diseño muestral es diferente que
+en el caso de m.a.s. para la inferencia clásica. En este último caso se
+supone una muestra de valores de una variable cuya ley de distribución
+es conocida salvo los parámetros que lo determinan. Sin embargo en el
+caso de poblaciones finitas la ley que esta determinada es la de la
+muestra y los valores que determinan la ley de una variable $X$ son los
+propios valores de esta variable. Por lo que la ley de la variable no
+queda determinada por un parámetro si no por el diseño muestral y todos
+los valores de la variable $X$. Es por ello que las definiciones de
+estimadores insesgados, etc. tienen ligeras modificaciones que hacen que
+sean diferentes a la noción usual que tenemos de estos conceptos.
+
+En primer lugar observamos que todo estimador estará asociado a la
+muestra $m$, que obtenemos mediante el mecanismo aleatorio determinado
+por el diseño muestral y por los valores de la variable $X$ que estamos
+estudiando para esa muestra $m$, lo cual denotaremos por
+$\widehat{\theta }(m,X)=\widehat{\theta }(x_{i_1},...,x_{i_{n(m)}})$.
+Posteriormente solo señalaremos la dependencia respecto de la muestra y
+escribiremos $\widehat{\theta }(m)$.
+
+Comenzamos viendo la noción de estimador insesgado en este contexto.
+
+::: {#def-label2}
+Dado un diseño muestral $(M,p)$ sobre una población $E$ y dado un
+parámetro $\theta (X)$, se dice que el estimador
+$\widehat{\theta }(m,X)$ es un estimador insesgado de $\theta (X)$ si
+$$E[\widehat{\theta }(m,X)]=\sum_{m\in M}\widehat{\theta }(m,X)p(m)=\theta (X)
+ \text{, para todo }X\in \Bbb{R}^n.$$
+:::
+
+Como observamos en este caso lo que se pretende es que sean cuales sean
+los valores de la variable $X$, el estimador tenga como promedio el
+valor $\theta (X)$.
+
+Pasamos entonces ahora a buscar estimadores de cierto tipo de
+parámetros, en concreto vamos a ver estimadores de formas lineales y
+formas cuadráticas de los valores de la muestra.
+
+::: {#thm-label0}
+Sea $\theta (X)=\sum_{i=1}^Na_iX_i$ entonces un estimador insesgado de
+$\theta (X)$ viene dado por
+$$\widehat{\theta }(m)=\sum_{i\in m}\frac{a_iX_i}{p_i},$$ y su varianza
+viene dada por
+$$Var(\widehat{\theta }(m))=\sum_{k,l\in E}\Delta _{kl}a_ka_l\frac{X_k}{p_k}%
+ \frac{X_l}{p_l},$$ donde $\Delta _{kl}=p_{kl}-p_kp_l$.
+:::
+
+Los estimadores de la forma
+$\widehat{\theta }(m)=\sum_{i\in m}\frac{a_iX_i}{p_i}$ se conocen por el
+nombre de estimadores **Horvitz-Thompson.**
+
+Es importante señalar que en este contexto no existen estimadores
+insesgados de mínima varainza (Teorema de Basu).
+
+En el caso de diseños con tamaños de muestras iguales, como es el caso
+del muestreo aeltorio simple, la varainza queda como sigue.
+
+::: {#thm-label1}
+Sea $(M,p)$ un diseño muestral de tamaño fijo $n=n(m)$ y sea
+$\widehat{\theta }(m)=\sum_{i\in m}\frac{a_iX_i}{p_i}$ entonces
+$$Var(\widehat{\theta }(m))=-\frac 12\sum_{k,l\in E}\Delta _{kl}\left( \frac{a_kX_k}{p_k}-\frac{a_lX_l}{p_l}\right) ^2.$$
+:::
+
+Pasamos ahora a la estimación de formas cuadráticas es decir parámetros
+que pueden ponerse en la forma:
+$$\theta (X)=\sum_{i,j\in E}a_{ij}X_kX_l.$$ Este caso interesa tanto
+para la estimación de la varianza poblacional como para la estimación de
+la varianza del estimador de Horvitz-Thompson. Tenemos en este caso el
+siguiente teorema.
+
+::: {#thm-label2}
+Sea $(M,p)$ un diseño muestral y sea $\theta (X)=\sum_{k,l\in
+ E}a_{kl}X_kX_l$, entonces existen estimadores insesgados de
+$\theta (X)$ si $p_{ij}>0$ para todo $a_{ij}\neq 0$, siendo un estimador
+insesgado de $\theta (X)$ el dado por
+$$\widehat{\theta }(m)=\sum_{i\in m}a_{ii}\frac{X_i^2}{p_i}+\sum_{i,j\in m
+ \text{ }i\neq j}a_{ij}\frac{X_iX_j}{p_{ij}}.$$
+:::
+
+La demostración del teorema anterior se puede modificar para proponer
+estimadores insesgados de parametros en la forma:
+$$\theta (X)=\sum_{k,l\in E}a_{kl}f(X_k,X_l),$$ obteniendose como
+estimador insesgado el estadístico
+$$\widehat{\theta }(m)=\sum_{i,j\in m\text{ }}a_{ij}\frac{f(X_i,X_j)}{p_{ij}}.$$
+
+Donde obviamente necesitamos la condición $p_{ij}>0$ para todo
+$a_{ij}\neq
+ 0.$ Por lo que la estimación de cualquier forma cuadrática solo es
+posible para diseños muestrales cuantificables.
+
+Vamos a ver aplicaciones concretas de este tipo de estimadores.
+
+La primera aplicación es la estimación de la varianza poblacional.
+
+**Varianza poblacional: **
+
+Ejemplo de este tipo de parámetros es la varianza. Para ello primero
+observamos que $$\begin{aligned}
+ s_X^2 &=&\frac{\sum_{i=1}^N\left( X_i-\overline{X}\right) ^2}N=\frac
+ 1N\sum_{i=1}^N\left( X_i^2-2X_i\overline{X}+\overline{X}^2\right) \\
+ &=&\frac 1N\left( \sum_{i=1}^NX_i^2-2N\overline{X}^2+N\overline{X}^2\right)
+ =\frac 1N\left( \sum_{i=1}^NX_i^2-N\overline{X}^2\right) \\
+ &=&\frac 1{N^2}\left( N\sum_{i=1}^NX_i^2-\left( \sum_{i=1}^NX_i\right)
+ ^2\right) \\
+ &=&\frac 1{N^2}\left( N\sum_{i=1}^NX_i^2-\sum_{i=1}^NX_i^2-\sum_{i,j=1,\text{
+ }i\neq j}^NX_iX_j\right) \\
+ &=&\frac{N-1}{N^2}\sum_{i=1}^NX_i^2-\frac 1{N^2}\sum_{i,j=1,\text{ }i\neq
+ j}^NX_iX_j.
+ \end{aligned}$$
+
+Por otro lado:
+$$\frac 1{2N^2}\sum_{i,j=1,\text{ }i\neq j}^N\left( X_i-X_j\right) ^2=\frac
+ 1{2N^2}\left( \sum_{i,j=1,\text{ }i\neq j}^N\left( X_i^2+X_j^2\right)
+ -2\sum_{i,j=1,\text{ }i\neq j}^NX_iX_j\right) ,$$ observando que
+$$\sum_{i,j=1,\text{ }i\neq j}^NX_i^2=\sum_{i=1}^N\sum_{j=1,\text{ }i\neq
+ j}^NX_i^2=\sum_{i=1}^NX_i^2\sum_{j=1,\text{ }i\neq
+ j}^N1=(N-1)\sum_{i=1}^NX_i^2$$ tenemos que
+$$\frac 1{2N^2}\sum_{i,j=1,\text{ }i\neq j}^N\left( X_i-X_j\right) ^2=\frac{
+ 2(N-1)}{2N^2}\sum_{i=1}^NX_i^2-\frac 1{N^2}\sum_{i,j=1,\text{ }i\neq
+ j}^NX_iX_j=s_X^2\text{.}$$
+
+Lo anterior permite dar el siguiente estimador de $s_X^2$. En concreto
+tenemos como estimador insesgado el estadístico
+$$\widehat{s}(m)=\frac 1{2N^2}\sum_{i,j\in m,\text{ }i\neq j}\frac{\left(
+ X_i-X_j\right) ^2}{p_{ij}}.$$
+
+La segunda es la estimación de la varianza del estimador de
+Horvitz-Thompson.
+
+**Varianza del estimador de Horvitz-Thompson:**
+
+Recordemos que en general la varianza venía dada por la fórmula
+$$Var(\widehat{\theta }(m))=\sum_{k,l\in E}\Delta _{kl}a_ka_l\frac{X_k}{p_k}
+ \frac{X_l}{p_l},$$ con lo cual un estimador insesgado vendrá dado por
+la expresión:
+$$\widehat{V}(\widehat{\theta }(m))=\sum_{k,l\in m}\frac{\Delta _{kl}}{p_{kl}}
+ a_ka_l\frac{X_k}{p_k}\frac{X_l}{p_l}.$$
+
+Veamos como queda el estimador anterior en el caso del muestreo
+aleatorio simple.
+
+::: {#exm-label3}
+**MAS(N,n)** Para la varianza del estimador de Horvitz-Thompson se
+tiene, utilizando la fórmula de la varianza para el caso de muestras de
+tamaños iguales: $$\begin{aligned}
+ Var(\overline{x}_m) &=&-\frac 12\sum_{i,j\in E}\Delta _{ij}\left( \frac{a_i}{
+ p_i}X_i-\frac{a_j}{p_j}X_j\right) ^2 \\
+ &=&-\frac 12\left( \sum_{i\in E}f(1-f)\left( \frac{X_i}n-\frac{X_j}n\right)
+ ^2+\sum_{i,j\in E\text{, }i\neq j}-f\frac{1-f}{N-1}\left( \frac{X_i}n-\frac{
+ X_j}n\right) ^2\right) \\
+ &=&\frac 12\frac{f(1-f)}{n^2(N-1)}\sum_{i,j\in E\text{, }i\neq j}\left(
+ X_i-X_j\right) ^2=\frac 12\frac{(1-f)}n\sum_{i,j\in E\text{, }i\neq j}\frac{
+ \left( X_i-X_j\right) ^2}{N(N-1)} \\
+ &=&\frac{(1-f)}n\frac N{N-1}\frac 12\sum_{i,j\in E\text{, }i\neq j}\frac{
+ \left( X_i-X_j\right) ^2}{N^2}=\frac{(1-f)}n\frac N{N-1}s_X^2=\frac{(1-f)}
+ nS_X^2.
+ \end{aligned}$$
+
+Como estimador de esta varianza tenemos: $$\begin{aligned}
+ \widehat{V}(\overline{x}_m) &=&-\frac 12\sum_{i,j\in m\text{, }i\neq j}-f
+ \frac{(1-f)}{N-1}\frac{N(N-1)}{n(n-1)}\frac 1{n^2}\left( X_i-X_j\right) ^2 \\
+ &=&\frac 12\frac{(1-f)}n\sum_{i,j\in m\text{, }i\neq j}\frac 1{n(n-1)}\left(
+ X_i-X_j\right) ^2=\frac{1-f}nS_m^2.
+ \end{aligned}$$
+
+A partir de la construcción asintótica de intervalos de confianza
+tenemos que el intervalo de confianza al nivel 100(1-$\alpha )\%$ viene
+dado por
+$$\left( \overline{x}_m\pm z_{1-\alpha /2}\sqrt{\frac{1-f}n}S_m\right) .$$
+
+Lo anterior tiene una aplicación directa a la estimación del total
+poblacional.
+
+**Total poblacional**
+
+Para el total poblacional $T=\sum_{i=1}^NX_i$, podemos aplicar de forma
+directa lo anterior obteniéndose que al ser $T=N\overline{X}$, entonces
+el estimador Horvtiz-Thompson de T está dado por
+$$\widehat{T}=N\overline{x}_m$$ su varianza viene dada por
+$$Var[\widehat{T}]=N^2\frac{(1-f)}nS_X^2$$ y un estimador de esta por
+$$\widehat{V}[\widehat{T}]=N^2\frac{1-f}nS_m^2.$$
+
+También podemos aplicar lo anterior a la estimación de totales y
+proporciones en el caso de variables dicotomicas es decir en el caso de
+variables: $$X_i=\left\{ 
+ \begin{array}{ll}
+ 1 & \text{si el elemento }i\text{ presenta la característica }A \\ 
+ 0 & \text{si el elemento }i\text{ no presenta la característica }A
+ \end{array}
+ \right. .$$
+
+En este caso tenemos que el total de individuos que presentan la
+característica se estiman mediante $$\widehat{N}_A=N\widehat{p}_m$$
+donde $\widehat{p}_m$ es la proporción de la muestra que presentan la
+característica $A$.
+
+Su varianza esta dada por $$\begin{aligned}
+ Var[\widehat{N}_A] &=&N^2\frac{(1-f)}nS_X^2 \\
+ &=&N^2\frac{(1-f)}n\frac{\left( \sum X_i^2-N\overline{X}^2\right) }{N-1} \\
+ &=&N^2\frac{(1-f)}n\frac{N\overline{X}-N\overline{X}^2}{N-1} \\
+ &=&N^2\frac{N-n}{Nn}N\frac{p_A(1-p_A)}{N-1} \\
+ &=&N^2\frac{N-n}{N-1}\frac{p_A(1-p_A)}n,
+ \end{aligned}$$ y un estimador de esta por
+$$\widehat{V}[\widehat{N}_A]=N^2(1-f)\frac{\widehat{p}_m(1-\widehat{p}_m)}{n-1}.$$
+
+De lo anterior tenemos para la estimación de proporciones lo siguiente.
+
+**Proporción**
+
+Estimador Horvtiz-Thompson de $p_A=N_A/N:$
+$$\widehat{p}_A=\widehat{p}_m$$
+
+Varianza de $\widehat{p}_m:$
+$$Var[\widehat{p}_m]=\frac{N-n}{N-1}\frac{p_A(1-p_A)}n$$
+
+Estimador inse4sgado de $Var[\widehat{p}_m]:$
+$$\widehat{V}[\widehat{p}_m]=(1-f)\frac{\widehat{p}_m(1-\widehat{p}_m)}{n-1}.$$
+
+De lo anterior tenemos que el intervalo de confianza para $p_A$ viene
+dado por:
+$$\left( \widehat{p}_m\pm z_{1-\alpha /2}\sqrt{(1-f)\frac{\widehat{p}_m(1-%
+ \widehat{p}_m)}{n-1}}\right) .$$
+
+**Tamaño de muestra**
+
+Las fórmulas de los intervalos de confianza pueden ser utilizadas para
+la determinación del tamaño muestral a utilizar con el fin de conseguir
+una determinada precisión en la estimación de un parámetro mediante el
+intervalo de confianza.
+
+Comenzamos con la media poblacional.
+
+**Tamaño de muestra para la media poblacional**
+
+La idea es ver que tamaño de muestra hay que tomar para que el intervalo
+de confianza para la media sea de amplitud 2$\delta$, es decir que el
+intervalo sea de la forma $\left(\overline{x}_m\pm \delta \right)$, con
+lo cual la media $\overline{X}$ será estimada mediante el intervalo de
+confianza con una precisión $\delta$.
+
+Para ello hacemos $$\delta =z_{1-\alpha /2}\sqrt{\frac{1-f}n}S_X,$$ de
+donde
+$$\delta ^2=z_{1-\alpha /2}^2\frac{1-f}nS_X^2=z_{1-\alpha /2}^2\frac{N-n}{Nn}%
+ S_X^2$$ y despejando tenemos
+$$Nn\delta ^2+z_{1-\alpha /2}^2nS_X^2=z_{1-\alpha /2}^2NS_X^2$$ de donde
+$$n=\frac{z_{1-\alpha /2}^2NS_X^2}{N\delta ^2+z_{1-\alpha /2}^2S_X^2}$$
+en donde llamando $n_0=z_{1-\alpha /2}^2S_m^2/\delta ^2$, tenemos que
+$$n=\frac{n_0}{N+n_0}=\frac{n_0}{1+n_0/N}.$$
+
+Si observamos $n$ como función de $N$ observamos que es una hipérbola
+que pasa por el origen y tiene una asíntota horizontal en $y=n_0$.
+
+Con lo que a partir de un determinado $N$ tendremos que $n=n_0$, al
+tener que aproximar $n$ por el entero mas proximo, en concreto cuando
+$n_0-n<1$, tendremos que $n=n_0$.
+
+Es decir $$\begin{aligned}
+ 1 &>&n_0-n=n_0-\frac{n_0}{1+\frac{n_0}N}=n_0\left( 1-\frac 1{1+\frac{n_0}%
+ N}\right) \\
+ &=&n_0\left( \frac{n_0}{N+n_0}\right)
+ \end{aligned}$$ siendo esta desigualdad cierta si y solo si
+$N\geq n_0^2-n_0=n_0(n_0-1)$, y en este caso $n=n_0$.
+
+Pasamos entonces a ver el problema cuando $S_X$ es desconcida, que es lo
+que ocurre en la mayor parte de los casos.
+
+Hay dos posibles situaciones dependiendo de si el estudio que queremos
+realizar se ha realizado durante otros años o no.
+
+Si el estudio se ha realizado en otras ocasiones entonces lo que se
+suele hacer es utilizar la estimación de la varianza de la última vez y
+sustituirla en las fórmulas.
+
+En el caso en que nos disponga de estudios previos, lo que suele hacerse
+es extraer una primera muestra, que se conoce como **muestra piloto**,
+llamemosle $m^{\prime }$ de tamaño $n,$sobre la cual se calcula $%
+ S_{m^{\prime }}^2$, utilizamos esta expresión como estimador de
+$S_X^2$, sustituimos en la expresión anterior y calculamos el valor de
+$n$ si este es mayor que $n^{\prime }$, entonces se extrae en
+$E-m^{\prime }$ una muestra de tamaño $n-n^{\prime }$,
+$m^{\prime \prime }$ y la muestra final a utilizar será
+$m=m^{\prime }\cup m^{\prime \prime }$. Este procedimiento da lugar a
+una muestra en $E$ segun un muestreo aleatorio simple de tamaño $n$ (ver
+ejercicios propuestos).
+
+**Tamaño de muestra para una proporción poblacional**
+
+En este caso se trata de determinar $n$ tal que el intervalo de
+confianza al nivel $100(1-\alpha )\%$ contenga al parámetro $p$ con una
+precisión $%
+ \pm \delta .$ Para ello como en el caso anterior hacemos
+$$\delta =z_{1-\alpha /2}\sqrt{(1-f)\frac{p_A(1-p_A)}{n-1}},$$ de donde
+tenemos $$(n-1)\delta ^2=z_{1-\alpha /2}^2(1-f)p_A(1-p_A),$$ es decir
+$$n\left( z_{1-\alpha /2}^2p_A(1-p_A)+N\delta ^2\right) =z_{1-\alpha
+ /2}^2Np_A(1-p_A)+\delta ^2$$ es decir
+$$n=\frac{z_{1-\alpha /2}^2Np_A(1-p_A)+N\delta ^2}{z_{1-\alpha
+ /2}^2p_A(1-p_A)+N\delta ^2}=\frac{z_{1-\alpha /2}^2p_A(1-p_A)/\delta ^2+1}{%
+ z_{1-\alpha /2}^2p_A(1-p_A)/(N\delta ^2)+1}.$$
+
+Aquí se nos plantea el mismo problema que antes con los $p_A$. Por lo
+que es posible aplicar lo anteriormente visto. Sin embargo en esta
+situación hay una posibilidad que no pasa por estimar los parámetros.
+
+Se basa en observar que $n$ es función creciente de $p_A(1-p_A)$ con lo
+que
+$$n<\frac{z_{1-\alpha /2}^2/(4\delta ^2)+1}{z_{1-\alpha /2}^2/(4N\delta ^2)+1}%
+ .$$
+
+Adicionalmente si $\alpha =0.05$ y $N>>$ entonces haciendo uso de que $%
+ z_{1-\alpha /2}^2\approx 4$ se tiene que
+$$n\approx 1+\frac 1{\delta ^2}\text{.}$$
+:::
+
+## Muestreo estratificado
+
+De forma general el muestreo estratificado consiste en poner a la
+población como unión disjunta de una serie de conjuntos que llamaremos
+estratos, y dentro de cada uno de ellos considerar un diseño muetsral.
+Para cada uno de los diseños se extrae una muestra y estas se unen para
+formar la muestra de la población original. Veamos por qué se desarolla
+este diseño muestral.
+
+La motivación fundamental de este muestreo es la siguiente. Si la
+población la podemos dividir o está dividida en estratos suficientemente
+homogéneos, es decir que las observaciones tengan un comportamiento
+parecido, para conseguir una precisión alta en la estimación en el
+estrato no hace falta tomar una muestra grande, por lo tanto permitirá
+reducir en gran medida el tamaño de muestra a tomar en comparación por
+ejemplo con el muestreo aleatorio simple que es el usual.
+
+Por otro lado si los estratos aluden a areas geógráficas, esto permite
+planificar de forma más comoda el trabajo de campo de selección de
+muestras con lo que eso supone de ahorro en tiempo y dinero.
+
+Por último en algunas situaciones es de interés realizar estimaciones
+del parametro en cada uno de los estratos lo que es factible mediante el
+muestreo estratificado.
+
+Vamos a ilustrar con ejemplos las ventajas anteriores.
+
+En estudios de variables relacionadas con la económia familiar, es
+posible dividir una zona geográfica en distintas zonas con un
+comportamietno similar y se pueden utilizar estas zonas como estratos.
+
+Otro ejemplo es el de muestreo para intención de voto. En este caso
+utilizando como estratos las distintas divisones territoriales podemos
+obtener no solo una información general sino tambien una información por
+cada una de las regiones. Pasamos entonces formalizar el muestreo
+estratificado.
+
+Como hemos dicho supodremos que la población $E$ se puede poner como
+unión disjunta de conjuntos, $E_h$, que llamaremos **estratos** es decir
+$$E=\bigcup_{h=1}^LE_h\text{, }E_i\cap E_j=\emptyset \text{ para todo }i\neq j\text{.}$$
+
+Denotaremos el número de individuos de cada uno de ellos por $N_h$, es
+decir, $\sharp E_h=N_h$.
+
+Para cada estrato definimos el **peso del estrato**, como la proporción
+de elementos de la población que contiene el estrato es decir
+$$W_h=\frac{N_h}N\text{,}$$ y supondremos en cada estaro definido un
+diseño muestral $(M_h,p_h)$, con probabilidades de inclusión $p_i^h$ y
+$p_{ij}^h$, $h=1,...,L$, siendo estos diseños independientes entre si.
+
+A partir de esto podemos definir un diseño muestral sobre la población
+$E$, obteniendo en cada estrato una muestra de acuerdo a su diseño
+muestral y tomando como muestra sobre $E$ la unión de las muestras
+obtenidas en cada estrato, por lo que el espacio muestral será
+$$M=M_1\times M_2\times \cdots \times M_L,$$ y al ser las muestras
+independientes tendremos que para $m=\bigcup_{h=1}^Lm_h$, su
+probabilidad será
+$$p(\bigcup_{h=1}^Lm_h)=p(m_1)\times p(m_2)\times \cdots \times p(m_h)\text{.}$$
+
+En cuanto a las probabilidades de inclusión de primer orden tendríamos:
+
+Si $i\in E_h$ entonces $$p_i=p_i^h.$$
+
+Para las probabilidades de inclusión de segundo orden tenemos:
+
+Si $i$, $j\in E_h$ entonces $$p_{ij}=p_{ij}^h$$ y si $i\in E_h$,
+$j\in E_{h^{^{\prime }}}$ ($h\neq h^{\prime }$) entonces por la
+independencia de los diseños $$p_{ij}=p_i^hp_j^{h^{\prime }}.$$
+
+Por tanto si $i$, $j\in E_h$ entonces
+$$\Delta _{ij}=p_{ij}^h-p_i^hp_j^h=\Delta _{ij}^h$$ y si $i\in E_h$,
+$j\in E_{h^{^{\prime }}}$ ($h\neq h^{\prime }$) entonces
+$$\Delta _{ij}=p_i^hp_j^{h^{\prime }}-p_i^hp_j^{h^{\prime }}=0.$$
+
+Pasamos entonces a la estimación de los parámetros.
+
+Observamos que si $p_i^h$, $p_{ij}^h>0$, para todo $h=1,...,L$, entonces
+$%
+ p_i$, $p_{ij}>0$, es decir si los muestreos en cada estrato son
+cuntiaficables entonces el muetsreo resultante será cuantificable.
+
+### Estimación de parámetros
+
+Dado un parametro lineal
+$\theta (X)=\sum_{i\in E}a_iX_i=\sum_{h=1}^L\sum_{i\in E_h}a_iX_i=\sum_{h=1}^L\theta _h(X)$
+tenemos que el estimador Horvtiz-Thompson seriá:
+$$\widehat{\theta }_{HT}(m)=\sum_{i\in m}\frac{a_iX_i}{p_i}=\sum_{h=1}^L%
+ \sum_{i\in m_h}\frac{a_iX_i}{p_i^h}=\sum_{h=1}^L\widehat{\theta }_h(m_h),$$
+donde $\widehat{\theta }_h$ es el estimador Horvitz-Thompson de
+$\theta_h(X)$ de acuerdo al diseño muestral $(M_h,p_h)$.
+
+En cuanto a la varianza tendríamos $$\begin{aligned}
+ Var(\widehat{\theta }_{HT}) &=&\sum_{k,l\in E}\Delta _{kl}a_ka_l\frac{X_k}{%
+ p_k}\frac{X_l}{p_l}=\sum_{h=1}^L\sum_{k,l\in E_h}\Delta _{kl}^ha_ka_l\frac{%
+ X_k}{p_k^h}\frac{X_l}{p_l^h} \\
+ &=&\sum_{h=1}^LVar(\widehat{\theta }_h)
+ \end{aligned}$$ y de forma análoga se tendría que el estimador
+insesgado de $V(\widehat{\theta }_{HT})$ vendría dado por
+$$\widehat{V}(\widehat{\theta }_{HT})=\sum_{h=1}^L\widehat{V}(\widehat{\theta }_h),$$
+donde $\widehat{V}(\widehat{\theta }_h)$ es el estimador insesgado de
+$Var(\widehat{\theta }_h)$.
+
+Observar que de lo anterior se deduce que si en los estratos tenemos
+diseños muestrales con poco error conseguiremos estimaciones sobre el
+total con un error bajo.
+
+Un caso de especial importancia es cuando los diseños de cada estrato
+siguen un muestreo aleatorio simple.
+
+Supongamos que en cada estrao se realiza un muetreo aleatorio simple de
+tamaño $n_h$, tenemos entonces que $p_i^h=\frac{n_h}{N_h}$ y
+$p_{ij}^h=\frac{n_h(n_h-1)}{N_h(N_h-1)}$.
+
+Por tanto para estaimr la media muestral tendriamos:
+$$\widehat{\overline{X}}=\sum_{h=1}^L\sum_{i=1}^{n_h}\frac 1N\frac{X_i}{n_h/N_h%
+ }=\sum_{h=1}^L\frac{N_h}N\sum_{i=1}^{n_h}\frac{X_i}{n_h}=\sum_{h=1}^LW_h%
+ \overline{x}_h,$$ es decir es la ponderación de las media dentro de
+cada estrato mediante los pesos del estrato.
+
+Para las varianzas tendriamos denotando $f_h=n_h/N_h$
+$$Var(\widehat{\overline{X}})=\sum_{h=1}^LW_h^2Var(\overline{x}%
+ _h)=\sum_{h=1}^LW_h^2\frac{(1-f_h)}{n_h}S_{X,h}^2$$ y como estimador
+insesgado de este tendriamos
+$$\widehat{V}(\widehat{\overline{X}})=\sum_{h=1}^LW_h^2\widehat{V}(\overline{x}%
+ _h)=\sum_{h=1}^LW_h^2\frac{(1-f_h)}{n_h}S_{m_h}^2\text{.}$$
+
+En el caso de proporciones tendríamos:
+$$\widehat{p}=\sum_{h=1}^LW_hp_{m_h},$$
+$$Var(\widehat{p})=\sum_{h=1}^LW_h^2\frac{p_h(1-p_h)}{n_h}\frac{N_h-n_h}{N_h-1},$$
+donde $p_h$ es la proporción del suceso de interés en el estrato $h$, y
+$$\widehat{V}(\widehat{p})=\sum_{h=1}^LW_h^2\frac{(1-f_h)}{n_h-1}p_h(1-p_h).$$
+
+### Asignación de la muestra
+
+Pasamos en este apartado a estudiar un problema de especial importancia
+como es el de determinar, fijado el tamaño de muestra, el numero de
+observaciones dentro de cada estrato, con objeto de minimizar la
+varianza del estimador resultante.
+
+En el caso particular del muestreo aleatorio simple estratificado
+tenemos los siguientes resulatdos.
+
+Estudiamos para ello la media muestral. En este caso se tiene que con el
+objetivo de minimizar la varianza, fijando un coste en la extracción de
+los elementos, la asignación óptima verifica
+$$n_h\varpropto \frac{W_h}{\sqrt{c_h}}S_{X,h},$$ donde $c_h$ es el coste
+por unidad en la muestra dentro del estrato $h$.
+
+Si el coste es el mismo en todos los estratos entonces obtenemos lo que
+se conoce como **asignación de Neyman:**
+$$n_h=c\cdot n\frac{\frac{W_h}{\sqrt{c}}S_{X,h}}{\sum_{h=1}^LW_hS_{X,h}\sqrt{c}%
+ }=n\frac{N_hS_{X,h}}{\sum_{h=1}^LN_hS_{X,h}},$$ que en el caso en que
+las varianzas dentro de cada estrato sean iguales queda como
+$$n_h=n\frac{N_h}N,$$ que se conoce como **asignación porporcional**.
+
+Observamos que en la asignación de Neyman es necesario conocer las
+cuasivarianza o varianzas dentro de cada estrato, lo cual en la práctica
+no es factible.
+
+Pasamos ahora a comparar algunos de los diseños que tenemos en este
+caso, como pueden ser el muestreo con asignación Neyman y proporcional y
+estos con el muestreo aleatorio simple, en términos del error en el
+muestreo.
+
+Observamos que
+$$V_{prop}\left[ \widehat{\overline{X}}\right] =\sum_{h=1}^LW_h^2\frac{(1-f_h)%
+ }{n_h}S_{X,h}^2=\frac{(1-f)}n\sum_{h=1}^LW_hS_{X,h}^2$$ y
+$$V_{Ney}=\left[ \widehat{\overline{X}}\right] =\sum_{h=1}^LW_h^2\frac{(1-f_h)%
+ }{n_h}S_{X,h}^2=\frac 1n\left( \sum_{h=1}^LW_hS_{X,h}\right)
+ ^2-\sum_{h=1}^LW_h^2\frac{S_{X,h}^2}{N_h},$$ de donde $$\begin{aligned}
+ V_{prop}\left[ \widehat{\overline{X}}\right] -V_{Ney}\left[ \widehat{%
+ \overline{X}}\right] &=&\frac{(1-f)}n\sum_{h=1}^LW_hS_{X,h}^2-\frac 1n\left(
+ \sum_{h=1}^LW_hS_{X,h}\right) ^2+\sum_{h=1}^LW_h^2\frac{S_{X,h}^2}{N_h} \\
+ &=&\frac 1n\left( \sum_{h=1}^LW_h\left(
+ S_{X,h}-\sum_{h=1}^LW_hS_{X,h}\right) ^2\right) ,
+ \end{aligned}$$ con lo cual la diferencia es inversamente porporcional
+al tamaño de muestra y directamente proporcional a la variabilidad de
+las desviaciones por estrato ponderadas por el peso del estrato.
+
+Comparamos ahora, en general el mas con el mase.
+
+Tenemos que $$\begin{aligned}
+ V_{mas}\left[ \widehat{\overline{X}}\right] &=&\left( \frac 1n-\frac
+ 1N\right) S_X^2 \\
+ &\approx &\left( \frac 1n-\frac 1N\right) \left(
+ \sum_{h=1}^LW_hS_{X,h}^2+\sum_{h=1}^LW_h(\overline{X}_h-\overline{X}%
+ )^2\right)
+ \end{aligned}$$
+$$V_{mase}\left[ \widehat{\overline{X}}\right] =\sum_{h=1}^LW_h^2\left( \frac
+ 1{n_h}-\frac 1{N_h}\right) S_{X,h}^2,$$ de donde $$\begin{aligned}
+ &&V_{mas}\left[ \widehat{\overline{X}}\right] -V_{mase}\left[ \widehat{%
+ \overline{X}}\right] \\
+ &\approx &\left( \frac 1n-\frac 1N\right) \left(
+ \sum_{h=1}^LW_hS_{X,h}^2-\sum_{h=1}^LW_h(\overline{X}_h-\overline{X}%
+ )^2\right) -\sum_{h=1}^LW_h^2\left( \frac 1{n_h}-\frac 1{N_h}\right)
+ S_{X,h}^2 \\
+ &=&\left( \frac 1n-\frac 1N\right)
+ \sum_{h=1}^LW_hS_{X,h}^2-\sum_{h=1}^LW_h^2\left( \frac 1{n_h}-\frac
+ 1{N_h}\right) S_{X,h}^2+\left( \frac 1n-\frac 1N\right) \sum_{h=1}^LW_h(%
+ \overline{X}_h-\overline{X})^2 \\
+ &=&\sum_{h=1}^L\left( \frac{W_h}n-\frac{W_h^2}{n_h}\right) S_{X,h}^2+\left(
+ \frac 1n-\frac 1N\right) \sum_{h=1}^LW_h(\overline{X}_h-\overline{X})^2.
+ \end{aligned}$$
+
+En el caso en que realicemos asignación proporcional entonces
+$$\frac{W_h}n-\frac{W_h^2}{n_h}=\frac{W_h}{n_h/W_h}-\frac{W_h^2}{n_h}=0,$$
+por lo que
+$$V_{mas}\left[ \widehat{\overline{X}}\right] -V_{prop}\left[ \widehat{%
+ \overline{X}}\right] \approx \left( \frac 1n-\frac 1N\right) \sum_{h=1}^LW_h(%
+ \overline{X}_h-\overline{X})^2\geq 0.$$
+
+Luego
+$$V_{mas}\left[ \widehat{\overline{X}}\right] \geq V_{prop}\left[ \widehat{%
+ \overline{X}}\right] \geq V_{Ney}\left[ \widehat{\overline{X}}\right] .$$
+
+Nos queda por último determinar el tamaño de muestra para una precisión
+fijada de antemano.
+
+Para ello consideremos un muestreo aleatorio simple con lo que si
+queremos estimar la media $\overline{X}$ con una precisión $\delta$,
+entonces se verifica la relación:
+$$\delta =z_{1-\alpha /2}\sqrt{\sum_{h=1}^LW_h^2\frac{(1-f_h)}{n_h}S_{X,h}^2}
+ \label{error-gen}$$
+
+Para poder detallar tendremso entonces que especificar el tipo de
+asignación que vamos a relaizar.
+
+-   **Asignación de Neyman:**
+
+    En este caso si sustituimos $n_h$ por su valor en función de $n$ en
+    ([\[error-gen\]](#error-gen){reference-type="ref"
+    reference="error-gen"}) tenemos
+    $$\delta =z_{1-\alpha /2}\sqrt{\frac 1n\left( \sum_{h=1}^LW_hS_{X,h}\right)
+     ^2-\sum_{h=1}^LW_h^2\frac{S_{X,h}^2}{N_h}},$$ de donde
+    $$\delta ^2=z_{1-\alpha /2}^2\left( \frac 1n\left(
+     \sum_{h=1}^LW_hS_{X,h}\right) ^2-\sum_{h=1}^LW_h^2\frac{S_{X,h}^2}{N_h}%
+     \right) ,$$ de donde tenemos
+    $$n=\frac{z_{1-\alpha /2}^2\left( \sum_{h=1}^LW_hS_{X,h}\right) ^2}{\delta
+     ^2+z_{1-\alpha /2}^2\sum_{h=1}^LW_h\frac{S_{X,h}^2}N},$$ por lo que
+    $$\begin{aligned}
+     n_h=\frac{z_{1-\alpha /2}^2\left( \sum_{h=1}^LW_hS_{X,h}\right) ^2}{\delta
+     ^2+z_{1-\alpha /2}^2\sum_{h=1}^LW_h\frac{S_{X,h}^2}N}\frac{W_hS_{X,h}}{%
+     \sum_{h=1}^LW_hS_{X,h}} \\
+     =\frac{z_{1-\alpha /2}^2W_hS_{X,h}\sum_{h=1}^LW_hS_{X,h}}{\delta
+     ^2+z_{1-\alpha /2}^2\sum_{h=1}^LW_h\frac{S_{X,h}^2}N}.
+     \end{aligned}$$
+
+-   **Asignación proporcional:**
+
+    De forma analoga al caso anterior tenemos:
+    $$n_h=\frac{z_{1-\alpha /2}^2W_h\sum_{h=1}^LW_hS_{X,h}^2}{\delta
+     ^2+z_{1-\alpha /2}^2\sum_{h=1}^LW_h\frac{S_{X,h}^2}N}.$$
+
+## Muestreo por conglomerados en una etapa
+
+En este caso supondremos que la población se puede poner como unión
+disjunta de una serie de conjuntos que llamaremos conglomerados, es
+decir,
+$$E=\bigcup_{i=1}^MC_i\text{, }C_i\cap C_j=\emptyset \text{, para todo }i\neq j%
+ \text{.}$$
+
+Cada $C_i$, estará compuesto por $N_i$ elementos, es decir,
+$C_i=\left\{i_1,...,i_{N_i}\right\}$.
+
+Consideramos ahora el conjunto de los conglomerados
+$$E_C=\left\{ C_1,...,C_M\right\} \text{,}$$ sobre el que definmosun
+diseño muestral $(M_C,p_C)$, que nos permitirá seleccionar de forma
+aleatoria una muestra de conglomerados $m_c=\{c_1,...,c_s\}$, en el cual
+tendremos als probabilidades de inclusión de primer y segundo orden,
+$\pi _i^c$ y $\pi _{ij}^c$, respectivamente.
+
+Esto nos permite definir sobre $E$ un diseño muestral siendo
+$$M=\left\{ \left. C_{c_1}\times \cdots \times C_{c_s}\right|
+ \{c_1,...,c_s\}\in M_C\right\} ,$$
+$$p(m)=p(C_{c_1}\times \cdots \times C_{c_s})=p_c(c_1,...,c_s),$$ por lo
+que las probabilidades de inclusión de primer orden vienen dadas por
+$$\pi _{k=}\pi _i^c\text{ si }k\in C_i$$ y las de segundo orden por
+$$\pi _{kl}=\left\{ 
+ \begin{array}{cc}
+ \pi _i^c & \text{si }k,l\in C_i \\ 
+ \pi _{kl}^c & \text{si }k\in C_i\text{ y }l\in C_j
+ \end{array}
+ \right. .$$
+
+Tenemos entonces que el estimador Horvitz-Thompson del parámetro
+$\theta(X)=\sum a_iX_i$ viene dado por
+$$\widehat{\theta }_{HT}=\sum_{i\in m}\frac{a_iX_i}{\pi _i}=\sum_{i\in
+ m_c}\frac 1{\pi _i^c}\sum_{k\in C_i}a_kX_k,$$ y si denotamos
+$\theta (C_i)=\sum_{k\in C_i}a_iX_i$, tenemos que
+$$\widehat{\theta }_{HT}=\sum_{i\in m_c}\frac{\theta (C_i)}{\pi _i^c},$$
+por lo que podemos ver este como el estimdor Horvitz-Thompson del
+parametro $\theta (X)=\sum_{i=1}^M\theta (C_i)$ definido sobre la
+población $E_C$ para el diseño muestral $(M_C,p_C)$.
+
+Por tanto el error en la estimación viene dado por
+$$Var[\widehat{\theta }_{HT}]=\sum_{i,j\in E_C}\Delta _{ij}^c\frac{\theta (C_i)%
+ }{\pi _i^c}\frac{\theta (C_j)}{\pi _j^c},$$ y el estimador insesgado de
+este por
+$$\widehat{V}[\widehat{\theta }_{HT}]=\sum_{i,j\in E_C}\frac{\Delta _{ij}^c}{%
+ \pi _{ij}^c}\frac{\theta (C_i)}{\pi _i^c}\frac{\theta (C_j)}{\pi _j^c}.$$
+
+Para detallar más hemos de precisar cual será el diseño muestral que
+consideraremos sobre $E_C$. En el resto de la sección continuaremos
+desarrollando el caso en que se trata de un muestreo aleatorio simple.
+
+Suponemos sobre $E_C$ un muestreo aleatorio simple $MAS(M,g)$.
+
+Veamos como queda la estimación de la media pobalcional, y como caso
+particualr podermos obtener el total y la proporción poblacional.
+
+**Media poblacional** $\overline{X}$.
+
+Estimador Horvitz Thompson: $$\begin{aligned}
+ \widehat{\overline{X}} &=&\sum_{i\in m_c}\frac Mg\sum_{k\in C_i}\frac{X_i}%
+ N=\sum_{i\in m_c}\frac MgW_i\overline{X}_i=\overline{z}\text{, con }Z_i=MW_i%
+ \overline{X}_i \\
+ V[\widehat{\overline{X}}] &=&\left( \frac 1g-\frac 1M\right) \frac
+ 1{M-1}\sum_{i=1}^L\left( MW_i\overline{X}_i-\overline{Z}\right) ^2=\left(
+ \frac 1g-\frac 1M\right) \frac 1{M-1}\sum_{i=1}^L\left( MW_i\overline{X}_i-%
+ \overline{X}\right) ^2 \\
+ \widehat{V}[\widehat{\overline{X}}] &=&\left( \frac 1g-\frac 1M\right) \frac
+ 1{g-1}\sum_{i\in m_c}\left( MW_i\overline{X}_i-\overline{z}\right) ^2=\left(
+ \frac 1g-\frac 1M\right) \frac 1{M-1}\sum_{i=1}^L\left( MW_i\overline{X}_i-%
+ \widehat{\overline{X}}\right) ^2.
+ \end{aligned}$$
+
+Pasamos ahora a comparar un muestreo aleatorio simple monoetápico con un
+muestreo aleatorio simple, con los mismos tamaños de muestra. Para
+simplificar la discusión suponemos $N_i=N_0$, para $i=1,...,M,$ con lo
+que si consideramos en $E$ un $MAS(N,n)$ necesitamos que
+$g=\frac n{N_0}$ para un muestreo $MAS(M,g)$ sobre $E_C$ que nos de el
+mismo tamaño de muestra en ambos casos.
+
+Observamos en primer lugar, al igual que en el muestreo estratificado,
+que
+$$(N-1)S_X^2(=SCT)=\sum_{i=1}^M(N_i-1)S_i^2(=SCD)+\sum_{i=1}^MN_i(\overline{X}%
+ _i-\overline{X})^2(=SCE),$$ y que
+$$V_{mas}[\widehat{\overline{X}}]=\left( \frac 1n-\frac 1N\right) \frac{SCT}{%
+ N-1}$$
+
+Por otro lado para el error en el muestreo monoetápico tenemos
+$$\begin{aligned}
+ V_{Con}[\widehat{\overline{X}}] &=&\left( \frac 1g-\frac 1M\right) \frac
+ 1{M-1}\sum_{i=1}^L\left( MW_i\overline{X}_i-\overline{X}\right) ^2 \\
+ &=&N_0\left( \frac 1n-\frac 1N\right) \frac 1{M-1}\sum_{i=1}^L\left( 
+ \overline{X}_i-\overline{X}\right) ^2 \\
+ &=&N_0\left( \frac 1n-\frac 1N\right) \frac 1{M-1}\frac{SCE}{N_0}=\left(
+ \frac 1n-\frac 1N\right) \frac 1{M-1}SCE.
+ \end{aligned}$$
+
+Por tanto
+$$\frac{V_{Con}[\widehat{\overline{X}}]}{V_{mas}[\widehat{\overline{X}}]}=%
+ \frac{N-1}{M-1}\frac{SCE}{SCT}=\frac{N-1}{M-1}\left( 1-\frac{SCD}{SCT}%
+ \right) \leq 1$$ si, y solo si,
+$$\frac{SCT}{N-1}\leq \frac{SCD}{N-M},$$ es decir si los conglomerados
+no son homogéneos.

@@ -1,0 +1,148 @@
+# Métodos de simulación y remuestreo
+
+## Introducción
+En los capítulos anteriores, hemos considerado valores observados $x_1, x_2, \ldots, x_n$, y nos hemos dado un marco conceptual de trabajo, que  ha consistido en suponer que estos valores corresponden a una realización de v.a. $X_1, X_2,\ldots, X_n$. Hemos considerado entonces una distribución de probabilidad para  $X_1, X_2,\ldots, X_n$, a menudo específicando una familia paramétrica de distribuciones a la que pertenece.
+
+En este capítulo, veremos cómo la capacidad de simular valores de las distribuciones de interés puede resultar útil para calcular o estimar cantidades relevantes para la inferencia sobre la distribución de $X_1, X_2,\ldots, X_n$. 
+
+:::{.callout-important}
+## Qué es ser capaz de simular valores de una distribución $f$?
+Se refiere a la posibilidad de producir, para cualquier tamaño $k$, conjuntos de valores $u_1,u_2, \ldots,u_k$, cuyo comportamiento imita el de $k$ realizaciones aleatorias independientes de la distribución $f$. 
+
+Quiere decir que las propiedades del conjunto generado lo hacen indistinguible, si le aplicamos tests de independencia o de bondad de ajuste, de $k$ realizaciones independientes de $f$. 
+:::
+
+Para simular valores de una distribución, recurriremos a un ordenador. Un programa como R, o Python, implementa un gran número de funciones que permiten simular valores de un amplio catálogo de distribuciones continuas o discretas. Todas estas funciones están basadas en la generación de números seudo-aleatorios, que permiten emular la simulación de una distribución uniforme discreta y, después de transformaciones, de otras distribuciones discretas o continuas. Para más información, ver el [apéndice](simulaciones.qmd).
+
+## Muestreo de Monte Carlo.
+:::{.callout-tip}
+## Por qué se llama Monte Carlo?
+El término muestro de Monte Carlo se atribuye al equipo de científicos que trabajaron en Los Alamos, Nueva Méjico EEUU, en el proyecto Manhanttan, con el objetivo de conseguir la primera bomba nuclear durante la segunda guerra mundial. Necesitaban ser capaces de realizar simulaciones de partículas para observar sus interacciones. Introdujeron el término "Monte Carlo" en referencia a la ciudad de Mónaco y su famoso casino con sus juegos de azar y de apuesta.
+
+Hablamos por lo tanto de muestreo de Monte Carlo, cuando procuramos con simulaciones basadas en computaciones reproducir el comportamiento de un fenómeno para estudiarlo.
+:::
+
+### Muestro de Monte Carlo para aproximar esperanzas.
+Un de las aplicaciones más frecuentes del muestreo de Monte Carlo es  la aproximación de cantidades calculadas asociadas a una distribución de probabilidad, expresadas como la esperanza de alguna función de esta distribución. El resultado que fundamenta esta aplicación es uno de los más importantes en probabilidad, se llama la "Ley de los grandes números":
+
+::: {#thm-LLN}
+
+## Ley fuerte de los grandes números
+
+Consideremos una m.a.s $X_1, X_2, \ldots, X_n$ de una distribución $X$. Para cualquier función $g$ que cumple $\mathbb{E}[g^2(X)] < +\infty$, tenemos que, con probabilidad 1, 
+$$ \lim_{n\to\infty} \frac 1 n \sum g(X_i) = \mathbb{E}[g(X)].$$ 
+:::
+La demostración de este teorema se puede encontrar en ??.  
+
+::: {.callout-note}
+## Ley fuerte y ley débil de los grandes números.
+En el teorema anterior, el adjetivo "fuerte" hace referencia al modo de convergencia de la secuencia $\frac 1 n \sum g(X_i)$. La afirmación de que, con probabilidad 1, tenemos convergencia de esta secuencia corresponde a la convergencia "casi segura", el más fuerte de los modos de convergencia para una sucesión de variables aleatorias. Otro modo de convergencia es el de convergencia en probabilidad, en el que afirmamos que, para cualquier real $\epsilon > 0$, la secuencia de probabilidades $\mathbb{P}(\frac 1 n \sum g(X_i) - \mathbb{E}[g(X_i)]> \epsilon)$ converge hacia 0. La ley "debil" de los grandes números establece, con las mismas condiciones que las del @thm-LLN, que $\mathbb{P}(\frac 1 n \sum g(X_i)$ converge en probabilidad hacia $\mathbb{E}[g(X_i)]$. La convergencia casi segura implica la convergencia en probabilidad, por ello, la calificamos de más débil. La Ley débil de los grandes números es mucho más facil de demostrar que la ley fuerte, pero en la práctica se hace uso de esta última.  
+:::
+
+Usamos este teorema para aproximar la media, la varianza, quantiles de una distribución  o las probabilidades de determinados sucesos.
+
+## Ejemplo
+Consideramos una caminata aleatoria sencilla: a cada paso, puede avanzar de 1 o recular de 1, con probabilidad 1/2. Si $U_i$ es el movimiento realizado en el paso $i$, $\mathbb{P}(U_i=1)=1/2, \mathbb{P}(U_i=-1)=1/2$, suponemos que los pasos son independientes. En cuántos pasos alcanza por primera vez esta caminata aleatoria el umbral 10? 
+
+Vamos a aproximar esta cantidad que es una variable aleatoria usando muestreo de Monte Carlo. Simularemos un gran número de trayectorias independientes de la caminata aleatoria, y registraremos para cada una, el momento (número de pasos) que alcanza por primera vez el valor 10. 
+En la @fig-trayectoria, empezamos por simular una trayectoria de la caminata considerada.
+
+```{r}
+#| label: fig-trayectoria
+#| fig-cap: Un ejemplo de una trayectoria simulada de una caminata aleatoria simple en sus 30 primeros pasos.
+#| warning: false
+#| fig-width: 10
+#| fig-height: 7
+library(tidyverse)
+set.seed(314159)
+
+simular_caminata <- function(inicio, n_pasos){
+  pasos <- sample(c(-1, 1), n_pasos, replace=TRUE)  
+  caminata <- inicio + cumsum(pasos)
+  return(data.frame("paso" = 1:length(caminata), "distancia" =  caminata)) 
+}
+caminata = simular_caminata(0, 30)
+
+caminata %>%
+    ggplot(aes(x = paso, y = distancia)) +
+    geom_step() 
+```
+Podemos ahora simular 500 trayectorias, por ejemplo, asegurándonos de que lleguen a alcanzar el umbral 10. En la figura @fig-trayectorias, se han representado las 10 primeras trayectorias simuladas. 
+```{r}
+#| label: fig-trayectorias
+#| fig-cap: 10 trayectorias simuladas de la caminata aleatoria simple, hasta que alcancen el umbral 10. 
+#| warning: false
+#| fig-width: 10
+#| fig-height: 7
+umbral <- 10
+n_pasos <- 50
+n_trayectorias <- 1000
+max_iteraciones <- 500
+pasos_umbral <- c()
+caminatas <- data.frame(paso = numeric(0), distancia = numeric(0), id = numeric(0) ) 
+for (i in 1:n_trayectorias) {
+    iteracion <- 1
+    caminata = simular_caminata(0, n_pasos)
+    while ((max(abs(caminata$distancia)) < umbral) & iteracion <= max_iteraciones) {
+        caminata <- rbind(
+            caminata,
+            simular_caminata(caminata$distancia[nrow(caminata)], n_pasos)
+        )
+    } 
+    iteracion <- iteracion + 1
+    if (max(abs(caminata$distancia)) >= umbral) {
+        paso_umbral <- which(abs(caminata$distancia) >= umbral)[1]
+        pasos_umbral <- c(pasos_umbral, paso_umbral)
+        caminata <- caminata[1:paso_umbral,]
+        caminata$id <- i
+        caminata$paso <- 1:paso_umbral
+        caminatas <- rbind(
+            caminatas,
+            caminata
+        )
+    } else {
+        if (iteracion > max_iteraciones) {
+            stop("Se ha superado el número máximo de iteraciones")
+        }
+    }
+                
+}
+
+caminatas %>%
+    filter(id <= 10) %>%  
+    ggplot(aes(x = paso, y = distancia, col=factor(id))) +
+    geom_step() +
+    geom_hline(yintercept = c(-10, 10), lty = 5) +
+    guides(col = "none") +
+    labs(x = "Paso", y = "Distancia") 
+```
+Aproximamos distintos indicadores de la distribución del número de pasos necesarios para alcanzar el umbral, calculando sus equivalentes a partir de la muestra de Monte Carlo:
+
+```{r}
+indicadores <- summary(pasos_umbral)[2:5]
+indicadores["Std."] <- sd(pasos_umbral)
+indicadores
+```
+Para visualizar mejor la distribución de los valores simulados, representamos un histograma en la @fig-histograma-MC. 
+
+```{r}
+#| label: fig-histograma-MC
+#| fig-cap: Distribución de las 1000 simulaciones de Monte Carlo de los tiempos de salida de una caminata aleatoria simple.
+#| warning: false
+#| fig-width: 10
+#| fig-height: 7
+
+tibble("paso" = pasos_umbral) %>%
+    ggplot(aes(x = paso)) +
+    geom_histogram(binwidth = 15, fill = "blue", alpha = 0.8) 
+```
+
+:::{.callout-tip}
+Podríais caracterizar la función puntual de probabilidad de esta variable aleatoria?
+:::
+
+### Muestro de Monte Carlo para aproximar una distribución a posteriori.
+El auge de las simulaciones de Monte Carlo propiciado por el aumento de las capacidades de cálculo ha supuesto un incremento significativo del uso de la inferencia Bayesiana en aplicaciones, porque abren la posibilidad de aproximar la distribución a priori de los parámetros para modelos complejos y elecciones de distribuciones a priori variadas. Permiten salir de los limitados casos de distribuciones conjugadas y son más flexibles que los métodos numéricos de aproximación de integrales.
+
+Lo ilustraremos a través de un ejemplo, 
+

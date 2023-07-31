@@ -1,0 +1,331 @@
+# Inferencia Bayesiana
+
+## Introducción 
+
+Además de los enfoques de la inferencia clásica y de poblaciones
+finitas, tenemos una última forma de hacer inferencia que se conoce como
+**inferencia bayesiana**.
+
+El punto de partida es asumir que el parámetro que caracteriza la
+distribución de la variable o variables objeto de estudio no está fijo
+dentro de un espacio, sino que tiene un comportamiento aleatorio cuya
+distribución viene a modelizar, desde un punto de vista probabilístico,
+la información sobre el parámetro. Por tanto, en este enfoque el
+parámetro se modeliza como una variable aleatoria. Su función puntual de
+probabilidad o de densidad se denota por $\pi(\theta)$ y se conoce como
+**distribución a priori**.
+
+La distribución a priori se actualiza a partir de los valores de la
+muestra, utilizando el teorema de Bayes. En función de esta distribución
+actualizada haremos inferencia sobre el parámetro. Veamos como se hace
+esto.
+
+Supongamos que tenemos una m.a.s., $\mathbf X=(X_1,\ldots,X_n)$, de la
+variable $X$ objeto de estudio. $\Theta$ es la variable o vector
+aleatorio que modeliza la información que tenemos sobre el parámetro
+$\theta$ asociado a la variable aleatoria $X$. Su función puntual o de
+densidad la denotamos por $\pi(\cdot)$ (distribución a priori). Por
+útlimo denotamos por $f(\cdot |\theta)$ la función de densidad o puntual
+de probabilidad de la m.a.s. (función de verosimilitud) donde sabemos
+que $\Theta=\theta$. Supongamos ahora que observamos una muestra
+concreta, $\mathbf X=\mathbf x$, entonces la función de densidad o
+función puntual de probabilidad de la variable condicionada
+$(\Theta |\mathbf X = \mathbf x)$ viene dada por
+$$\pi(\theta | \mathbf x)=\frac{f(\mathbf x | \theta) \pi(\theta) }{\int f(\mathbf x | u) \pi(u) du},$$
+expresión que se sigue del teorema de Bayes.
+
+Antes de seguir vamos a hacer varias observaciones.
+
+**Observaciones:**
+
+-   La integral del denominador se lleva a cabo sobre todo el conjunto
+    de posibles valores del parámetro. Por ejemplo, si el parámetro está
+    entre 0 y 1, la integral se se realiza sobre el intervalo (0,1).
+
+-   La integral va a quedar en términos de la muestra $\mathbf x$ a lo
+    sumo. Es decir, es función de $\mathbf x$ y es constante en
+    $\theta$. Usualmente encontraremos escrito que
+    $$\pi(\theta | \mathbf x) \propto f(\mathbf x | \theta) \pi(\theta),$$
+    para hacer énfasis en que la función puntual de probabilidad o de
+    densidad condicionada, salvo una constante, es de la forma
+    $f(\mathbf x | \theta) \pi(\theta)$. Esto será suficiente para
+    identificar que modelo de distribución sigue esta distribución
+    condicionada.
+
+-   La función condicionada $\pi(\theta | \mathbf x)$ se conoce como
+    **distribución a posteriori**. Nos dice como se actualiza la
+    información sobre el parámetro a partir de una observación de la
+    muestra.
+
+Vamos a ver un ejemplo.
+
+**Ejemplo 1.** Consideramos el experimento de lanzar un dado y observar
+si el resultado es par o impar. Tenemos una variable $X$ con
+distribución Bernoulli, que toma los valores $X=1$ si el resultado es
+par y $X=0$ si el resultado es impar. Denotaremos $p= P(X=1)$ y
+$1-p= P(X=0)$. Si lanzamos $n$ veces el dado y obtenemos la muestra
+$(x_1,\ldots,x_n)$ tenemos que
+$$f(x_1,\ldots,x_n|p)=p^{n\overline x}(1-p)^{n1-\overline x},$$ siendo
+$\overline x = \sum x_i/n$.
+
+Vamos a considerar que el valor $p$ puede ser cualquier valor, sin
+ninguna preferencia. Esa información se traduce en asumir una
+distribución uniforme en el intervalo $(0,1)$ y por lo tanto
+$\pi(p) = 1$.
+
+Aplicando la fórmula de la distribución a posteriori tenemos
+$$\pi(p | \mathbf x) \propto p^{n\overline x}(1-p)^{n1-\overline x}.$$
+
+Esta distribución es conocida y es el caso de una distribución beta.
+Para continuar el ejemplo primero vamos a ver como se comporta esta
+distribución beta.
+
+**Definición:** Dada una variable aleatoria $X$ se dice que sigue una
+distribución beta de parámetros positivos $a$ y $b$, y se denota por
+$X\sim Be(a,b)$, si su función de densidad viene dada por
+$$f(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{a-1}(1-x)^{b-1},\text{ para todo }x\in(0,1),$$
+siendo $\Gamma$ la función gamma. Es por tanto una distribución en el
+intervalo (0,1).
+
+Su media viene dada por $$E[X]=\frac{a}{a+b}$$ y su varianza por
+$$Var[X]=\frac{ab}{(a+b)^2(a+b+1)}.$$
+
+Ejemplos de las distintas formas que puede tomar la función de densidad
+en este modelo son los siguientes: 
+
+```{r, fig.align="center"}
+#| label: fig-beta
+#| fig-cap: Función de densidad de una distribución beta con distintos valores de los parámetros $a$ y $b$.
+#| warning: false
+#| fig-width: 10
+#| fig-height: 10
+z <- seq(0, 1, length = 1000)
+par(mfrow = c(3, 3))
+# Parametros: alfa=5 beta=5
+plot(z, dbeta(z, 5, 5), ylab = "Beta(5,5)", type = "l")
+
+# Parametros: alfa=5 beta=1
+plot(z, dbeta(z, 5, 1), ylab = "Beta(5,1)", type = "l")
+
+# Parametros: alfa=5 beta=3
+plot(z, dbeta(z, 2, 3), ylab = "Beta(2,3)", type = "l")
+
+# Parametros: alfa=1 beta=5
+plot(z, dbeta(z, 1, 5), ylab = "Beta(1,5)", type = "l")
+
+# Parametros: alfa=1 beta=1
+plot(z, dbeta(z, 1, 1), ylim = c(0, 1.5), ylab = "Beta(1,1)", type = "l")
+
+# Parametros: alfa=1 beta=3
+plot(z, dbeta(z, 1, 3), ylab = "Beta(1,3)", type = "l")
+
+# Parametros: alfa=3 beta=5
+plot(z, dbeta(z, 3, 5), ylab = "Beta(3,5)", type = "l")
+
+# Parametros: alfa=3 beta=1
+plot(z, dbeta(z, 3, 1), ylab = "Beta(3,1)", type = "l")
+
+# Parametros: alfa=3 beta=3
+plot(z, dbeta(z, 3, 3), ylab = "Beta(3,3)", type = "l")
+``` 
+Por lo tanto es una familia de distribuciones bastante flexible. Permite
+modelizar situaciones de asimetría, a la derecha y a la izquierda, y de
+simetría. Observamos también que el caso $a=1$ y $b=1$ nos da la
+distribución uniforme en el intervalo (0,1). Esta es la distribución a
+priori considerada en el ejemplo anterior. Es decir, la distribución a
+priori es una beta y la distribución a posteriori también es beta.
+Veamos que esto sucede de manera general para cualquier distribución
+beta, no necesariamente solo para la distribución uniforme.
+
+Supongamos que $\pi$ sigue un modelo $Be(\alpha,\beta)$ y consideramos
+el experimento anterior con una distribución de Bernoulli de parámetro
+$p$, tenemos que
+$$\pi(p | \mathbf x) \propto p^{n\overline x}(1-p)^{n(1-\overline x)}p^{\alpha-1}(1-p)^{\beta-1} = p^{n\overline x + \alpha-1}(1-p)^{n(1-\overline x)+\beta-1}.$$
+Por tanto la distribución a posteriori sigue una distribución beta de
+parámetros $a=n\overline x + \alpha$ y $b=n(1-\overline x)+\beta$.
+
+En esta situación se habla de lo que se conoce como familias de
+distribuciones conjugadas. Diremos que la familia de distribuciones beta
+es **conjugada** de la familia de distribuciones binomial (Bernoulli).
+Veremos otros ejemplos de familias conjugadas a lo largo de las clases
+de problemas y prácticas
+
+Volviendo al ejemplo, vamos a hacer simulaciones del lanzamiento del
+dado y dibujar la distribución a posteriori en cada caso.
+
+Como hemos visto antes la distribución a posteriori sigue una
+distribución beta con $a=n\overline x +1$ y $b=n(1-\overline x) +1$.
+
+Vamos a hacer una simulación de 10 lanzamientos, asumiendo que $p=0.4$,
+y lo que tenemos es: 
+
+```{r, fig.align="center"}
+#| label: fig-posteriori-dado-10
+#| fig-cap: Distribución a posteriori para $p$ correspondient a 10 lanzamientos de un dado. 
+#| warning: false
+#| fig-width: 10
+#| fig-height: 7
+# Tamaño de muestra
+n <- 10
+# Simulacion
+x <- rbinom(n, 1, 0.4)
+# valores de a y b 
+a <- sum(x) + 1
+b <- n * (1 - mean(x)) + 1
+# Grafica de la distribucion a priori y a posteriori
+p <- seq(0, 1, .005)
+prior <- rep(1, length(p))
+y <- dbeta(p, a, b, ncp = 0, log = F)
+plot(p, prior, ylim = c(0, max(y)), type = "l", ylab = "")
+par(new = T)
+plot(p, y, type = "l", ylab = "")
+abline(v = 0.4, lty = 2, col = "red", ylim = c(0, max(y)))
+```
+En la gráfica podemos comparar la distribución a priori, la recta $y=1$,
+con la distribución a posteriori. Como observamos la distribución a
+priori no da ninguna información, pero al actualizarla con los datos, la
+distribución a posteriori si que muestra que hay valores con mayor
+probabilidad de ser el valor real. Observamos que son los valores
+cercanos al 0.4 que es el valor real que genera la muestra.
+
+Si repetimos lo anterior con muestras de tamaño 50 tenemos lo siguiente:
+```{r, fig.align="center"}
+#| label: fig-posteriori-dado-50
+#| fig-cap: Distribución a posteriori para $p$ correspondient a 50 lanzamientos de un dado. 
+#| warning: false
+#| fig-width: 10
+#| fig-height: 7
+# Tamaño de muestra
+n <- 50
+# Simulacion
+x <- rbinom(n, 1, 0.4)
+# Valores de a y b
+a <- sum(x) + 1
+b <- n * (1 - mean(x)) + 1
+# Grafica de la distribucion a priori y a posteriori
+p <- seq(0, 1, .005)
+prior <- rep(1, length(p))
+y <- dbeta(p, a, b, ncp = 0, log = F)
+plot(p, prior, ylim = c(0, max(y)), type = "l", ylab = "")
+par(new = T)
+plot(p, y, type = "l", ylab = "")
+abline(v = 0.4, lty = 2, col = "red", ylim = c(0, max(y)))
+```
+Tenemos una situación como la anterior pero con una menor dispersión.
+
+Un vez que hemos obtenido la distribución a posteriori del parámetro
+dada una muestra de la variable, podemos utilizar alguna medida asociada
+a esta distribución para tener una idea del comportamiento del
+parámetro. Ejemplos de estas medidas son la media, varianza y cuantiles.
+Es decir, la media, varianza y cuantiles de la distribución a posteriori
+dada una muestra de la variable. Estos valores nos conducen a la
+estimación paramétrica y por intervalos en el contexto bayesiano.
+
+## Estimación paramétrica 
+
+De las medidas anteriores, la media a posteriori tiene una propiedad
+interesante. Recordar que la media a posteriori sería
+$E[\Theta|\mathbf X = \mathbf x]$.
+
+Supongamos que queremos utilizar un estadístico función de la muestra,
+$h(\mathbf x)$, tal que minimice
+$E[(\Theta - h(\mathbf x))^2|\mathbf X = \mathbf x]$. Desarrollando lo
+anterior tenemos que
+$$E[(\Theta - h(\mathbf x))^2|\mathbf X = \mathbf x]=Var[\Theta|\mathbf X = \mathbf x] + (E[\Theta|\mathbf X = \mathbf x]-h(\mathbf x))^2.$$
+
+Por lo tanto si $h(\mathbf x)= E[\Theta|\mathbf X = \mathbf x]$
+encontramos el mínimo de la expresión anterior. Es decir, la media a
+posteriori es el estadístico que minimiza el error cuadrático. Otras
+funciones de perdida dan lugar a otros estimadores.
+
+De acuerdo a lo anterior es razonable utilizar la media a posteriori
+como una aproximación del verdadero valor del parámetro.
+
+Veamos en nuestro ejemplo como queda la media a posteriori. En este
+caso, $$E[P|\mathbf x]=\frac{n\overline x + 1}{n + 2}.$$
+
+Si $n$ es suficientemente grande la media a posteriori se aproxima a
+$\overline x$.
+
+Si repetimos los ejemplos anteriores, tenemos las siguientes
+aproximaciones de $p$ mediante la media a posteriori: Consideramos el
+caso de una muestra de tamaño $n=10$.
+
+```{r} 
+# Tamaño de muestra
+n <- 10
+# Simulacion
+x <- rbinom(n, 1, 0.4)
+# Valores de a y b
+a <- sum(x) + 1
+b <- n * (1 - mean(x)) + 1
+# Valor de la media a posteriori
+a / (a + b)
+```
+
+En el caso de tamaño de muestra $n=50$ tenemos lo siguiente.
+
+```{r} 
+# Tamaño de muestra
+n <- 50
+# Simulacion
+x <- rbinom(n, 1, 0.4)
+# Valores de a y b
+a <- sum(x) + 1
+b <- n * (1 - mean(x)) + 1
+# Valor de la media a posteriori
+a / (a + b)
+``` 
+
+## Intervalos de credibilidad
+
+De manera natural ahora surge la posibilidad de dar un intervalo donde
+el parámetro va a localizarse con una probabilidad fijada de antemano.
+En concreto, conocida la distribución a posteriori del parámetro, y
+considerando los cuantiles para esa distribución a posteriori en
+$1 - \alpha/2$ y $\alpha/2$ tenemos un intervalo que con probabilidad
+$1-\alpha$ contiene al valor del parámetro y se conoce como **intervalo
+de credibilidad** para el parámetro. Vamos un par de casos siguiendo el
+ejemplo del lanzamiento de monedas. A diferencia de los intervalos de
+confianza estos intervalos nos hablan de la probabilidad de que el valor
+real esté dentro de un intervalo y no de que el intervalo consiga
+caprturar el verdadero valor del parámetro.
+
+Consideramos el caso de una muestra de tamaño $n=10$.
+
+```{r} 
+# Tamaño de muestra
+n <- 10
+# Simulacion
+x <- rbinom(n, 1, 0.4)
+# Valores de a y b
+a <- sum(x) + 1
+b <- n * (1 - mean(x)) + 1
+# Extremo inferior para p al 95
+qbeta(0.025, a, b)
+# Extremo superior para p al 95
+qbeta(0.975, a, b)
+```
+
+El intervalo `r qbeta(0.025, a, b)`, `r qbeta(0.975, a, b)`) es un
+intervalo de credibilidad del 95% para la probabilidad de salir un
+número par.
+
+En el caso de tamaño de muestra $n=50$ tenemos lo siguiente.
+
+```{r} 
+# Tamaño de muestra
+n <- 50
+# Simulacion
+x <- rbinom(n, 1, 0.4)
+# Valores de a y b
+a <- sum(x) + 1
+b <- n * (1 - mean(x)) + 1
+# Extremo inferior para p al 95
+qbeta(0.025, a, b)
+# Extremo superior para p al 95
+qbeta(0.975, a, b)
+```
+El intervalo (`r qbeta(0.025, a, b)`, `r qbeta(0.975, a, b)`) es un
+intervalo de credibilidad del 95% para la probabilidad de salir un
+número par.

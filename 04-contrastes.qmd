@@ -1,0 +1,1023 @@
+# Contrastes de hipótesis
+
+## Introducción
+
+En este tema estudiaremos una manera formal de decidir entre dos
+opciones o hipótesis formuladas previamente con un determinado nivel de
+error. Se establecen acerca de una o más poblaciones y suelen referirse
+bien a la forma de la distribución ¿sigue una distribución de Poisson?,
+¿sigue una distribución normal?, a relaciones de dependencia o bien a
+los parámetros de la distribución, conocida su forma. La primera
+cuestión la estudiaremos en prácticas mediante lo que se conoce como
+**contrastes no paramétricos** y en el **segundo caso a través de
+contrastes paramétricos**.
+
+Por razones didácticas comenzaremos con el segundo caso.
+
+## Contrastes de hipótesis paramétricos. Elementos principales
+
+De manera general un contraste (o test) de hipótesis es una regla que a
+partir de una muestra de un modelo probabilístico nos lleva a decidir si
+lo observado en la muestra es compatible con una hipótesis efectuada
+sobre el parámetro o parámetros que caracterizan las probabilidades
+asociadas al modelo. En el caso de incompatibilidad rechazamos esa
+hipótesis como valida o cierta y en caso contrario no tenemos evidencia
+empírica para rechazarla como cierta.
+
+Comenzamos viendo un ejemplo.
+
+::: {#exm-label0}
+Supongamos que para curar una determinada enfermedad se emplea un
+medicamento que cura la enfermedad con una probabilidad $\theta_0$
+conocida. Se ha obtenido un nuevo medicamento y se quiere determinar si
+merece la pena cambiar de medicamento. Para ello se prueba el nuevo
+medicamento con $n$ pacientes para los que se obtiene los resultados
+$X_1,X_2,\ldots,X_n$, donde $X_i =1$ indica que el $i$-ésimo paciente se
+curó y $X_i=0$, que no se curó. Sea $\theta$ la probabilidad de curar
+del nuevo medicamento, la cual es desconocida.
+
+Estamos dispuestos a cambiar el medicamento si $\theta >  \theta_0   +$
+0.15, es decir, si cura al menos un 15% más de pacientes que el
+medicamento anterior. Entonces tenemos que decidir entre dos hipótesis:
+$$\theta \leq \theta_0  + \text{0.15}$$ frente a
+$$\theta >   \theta_0   + \text{0.15}.$$ por lo que si aceptamos la
+hipótesis $\theta \leq \theta_0  + \text{0.15}$ no se produce el nuevo
+medicamento.
+
+Consideramos una m.a.s $X_1,X_2,\ldots,X_n$ y el contraste de hipótesis
+es especificado en función de un estadístico $T(X_1,X_2,\ldots,X_n)$ que
+resume la información muestral.
+
+En nuestro ejemplo si suponemos que $\theta_0 =$ 0.7 y $n=100$, un
+posible test sería el que acepta la hipótesis $H_0$ si
+$\sum_{i=1}^{100} X_i \le 85$ y la rechaza si
+$\sum_{i=1}^{100} X_i > 85$, es decir se cambia de medicamento si el
+nuevo cura a 85 o mas pacientes.
+
+Si queremos ser mas conservadores y estar seguros, que el medicamento
+tiene probabilidad de curar superior al 85% antes de tomar la decisión
+de cambiar el medicamento, podríamos usar el test que acepta $H_0$ si
+$\sum_{i=1}^{100} X_i \le 90$ y rechazarla si
+$\sum_{i=1}^{100} X_i >90$.
+
+Podemos cometer dos errores: rechazar una hipótesis verdadera o aceptar
+una falsa.
+:::
+
+Formalmente tenemos lo siguiente.
+
+**Formulación general del problema de contraste de hipótesis**
+
+Sea $X \sim F(x,\theta)$ con $\theta \in \Theta \subseteq \mathbb R^p$ y
+sea $\mathbf{X}= (X_1,X_2,\ldots,X_n)$ una muestra aleatoria simple de
+la población $X$ y $\Theta_0$ y $\Theta_1$ dos subconjuntos del espacio
+paramétrico $\Theta$ tales que $\Theta= \Theta_0 \cup \Theta_1$ y
+$\Theta_0  \cap \Theta_1 =\varnothing$.
+
+Un **test** o **contraste** es una regla basada en $\mathbf X$ para
+decidir entre las dos hipótesis: $$H_0 : \theta \in \Theta_0$$ frente a
+$$H_1 :   \theta \in  \Theta_1.$$
+
+La hipótesis $H_0$ se conoce como hipótesis nula y la hipótesis $H_1$ se
+conoce como hipótesis alternativa. La determinación de $H_0$ y $H_1$ es
+fundamental porque cualquier contraste de hipótesis trata de buscar
+evidencia empírica en contra de la hipótesis nula, y en ese caso
+rechazarla. Por lo tanto las hipótesis nula y alternativa no juegan un
+papel simétrico en un contraste de hipótesis.
+
+Esta regla podemos expresarla como una función del conjunto de todas las
+muestras en el conjunto $\{0,1\}$.
+
+::: {#def-label0}
+Se llama test (no aleatorizado) a una función:
+$\delta: sop(\mathbf{X})\rightarrow \{0,1\}$ tal que si
+$\delta(\mathbf{x})=0$ se acepta la hipótesis nula $H_0$ y si
+$\delta(\mathbf x)=1$ se rechaza la hipótesis $H_0$.
+:::
+
+Puesto que pueden existir más de una regla de decisión, denotaremos por
+$T$ el conjunto de test definidos sobre el $sop(\mathbf{X})$.
+
+Dado un test $\delta \in T$ se definen los siguientes conjuntos:
+
+**Región de aceptación**:
+$S_0 = \{ \mathbf x \in sop(\mathbf{X}):   \delta(\mathbf x)=0\}$.
+
+**Región de rechazo**:
+$S_1 = \{ \mathbf x \in sop(\mathbf{X}):   \delta(\mathbf x)=1\}$.
+
+Otro elemento importante son los errores del contraste. Para un
+contraste de hipótesis se podrá incurrir en dos tipos de error, que
+definimos a continuación.
+
+::: {#def-label1}
+Dado un test $\delta \in T$, se llama error de tipo I al que se comete
+al rechazar la hipótesis nula cuando es verdadera. Se llama error de
+tipo II al que se comete al aceptar la hipótesis nula cuando es falsa.
+:::
+
+Las posibles conclusiones de un test de hipótesis las podemos resumir en
+la siguiente tabla:
+
+::: center
+                           $\mathbf X \in S_1$   $\mathbf X \in S_0$
+  ----------------------- --------------------- ---------------------
+  $\theta \in \Theta_0$       Error tipo I            Correcto
+  $\theta \in \Theta_1$         Correcto            Error tipo II
+:::
+
+Puesto que será un regla de decisión que depende de la muestra aleatoria
+simple el comportamiento es aleatorio y por tanto podremos calcular la
+probabilidad de equivocarnos, es decir, de incurrir en uno de los
+errores anteriors. En concreto tenemos dos tipos de probabilidades que
+definimos a continuación.
+
+::: {#def-label2}
+a\) La probabilidad de cometer un error de tipo I es
+$P_I(\theta) = P(\mathbf X \in  S_1 | \theta \in \Theta_0)$, para todo
+$\theta \in \Theta_0$.
+
+b\) La probabilidad de error de tipo II es
+$P_{II}(\theta) = P(\mathbf X \in  S_0 | \theta \in \Theta_1)$, para
+todo $\theta \in \Theta_1$.
+:::
+
+La situación ideal se da cuando esas probabilidades son 0, aunque esto
+no es posible en general. Por lo tanto buscaremos contrastes que hagan
+esas probabilidades de error lo más pequeñas posibles. En general, no
+existe el contraste que tenga unas porbabilidades de error menor que
+cualquier otro contraste, ya que si el error de primer tipo disminuye el
+error de segundo tipo aumenta o viceversa.
+
+Existen distintos criterios para buscar contrastes con\"buenas\"
+propiedades. Nosotros trabajaremos con el siguiente criterio que es el
+más usado. Para ello fijamos primero la siguiente notación.
+
+**Notación:** Consideramos fijo $\alpha$ con $0< \alpha <1$, sea
+$$T_{\alpha}=\{\delta \in T | P_I (\theta)\le \alpha\text{ para todo }\theta \in \Theta_0 \},$$
+el conjunto de tests que tienen probabilidad de error de tipo I acotado
+superiormente por $\alpha$, que llamaremos **nivel de significación del
+test**.
+
+Pasamos a definir ahora el criterio con el que buscaremos nuestros
+contrastes.
+
+::: {#def-label3}
+Dado $\delta^* \in T_{\alpha}$ decimos que es óptimo si
+$$P_{II,\delta^*}(\theta)\leq P_{II,\delta}(\theta)\text{ para todo }\delta \in T_{\alpha}\text{ y para todo }\theta \in \Theta_1.$$
+:::
+
+::: {.remark}
+Se llama tamaño o extensión del test al número dado por
+$$\sup_{\theta\in \Theta_0}P_I(\theta).$$
+:::
+
+::: {#exm-label1}
+Sea $X\sim N(\mu,\sigma^2 =16)$, consideramos una m.a.s. de tamaño 16 de
+la población $X$ y sea $\alpha=$ 0.05. Consideramos los test:
+
+-   $\delta_1(\mathbf x) = 0$ si $\overline{ \mathbf x} \le 4.8$ y vale
+    1 si $\overline{ \mathbf x}>4.8$.
+
+-   $\delta_2(\mathbf x) = 0$ si $\overline{ \mathbf x} \le 3.555$ y
+    vale 1 si $\overline{ \mathbf x}  >3.555$.
+
+-   $\delta_3(\mathbf x) = 0$ si $\overline{ \mathbf x} \le 4.7$ y vale
+    1 si $\overline{ \mathbf x}>4.7$.
+
+Obtener si existe el test óptimo para el contraste: $$H_0: \mu= 3$$
+frente a $$H_1 : \mu = 5.$$
+:::
+
+**Notación:** Los tests en general, vienen dados como funciones de un
+estadístico cuya distribución es conocida (o aproximadamente) cuando
+$H_0$ es cierta. Lo indicaremos como **estadístico del test** y sirve
+para medir la diferencia entre los datos y lo que se espera de ellos
+bajo la hipótesis $H_0$.
+
+Vamos a introducir otro concepto relacionado con los errores y que
+resulta de gran interés.
+
+::: {#def-label4}
+Se llama función potencia de un test $\delta$ a la probabilidad de
+rechazar la hipótesis nula, es decir
+$$\pi_{\delta}(\theta) = P( X\in S_1,\text{ con } \theta \in \Theta).$$
+:::
+
+Para la función potencia tenemos las siguientes observaciones.
+
+::: {.remark}
+-   Si $\theta \in \Theta_0$ entonces
+    $\pi_{\delta}(\theta)= P_{I,\delta} ( \theta)$.
+
+-   Si $\theta \in \Theta_1$ entonces $$\begin{aligned}
+     \pi_{\delta}(\theta)&=& P( X\in S_1,\text{ con } \theta \in \Theta_1) \\ &=& 1- P( X\in S_0,\text{ con } \theta \in \Theta_1) =1-P_{II,\delta}(\theta).
+     \end{aligned}$$
+:::
+
+De acuerdo a la anterior, podemos redefinir los test óptimos:
+
+::: {#def-label5}
+Sea $\delta^* \in T_{\alpha}$, diremos que es el test uniforme de máxima
+potencia para el contraste $$H_0: \theta \in  \Theta_0$$ frente a
+$$H_1: \theta \in \Theta_1$$ si se verifica:
+$$\pi_{\delta^*}(\theta)\geq \pi_{\delta}(\theta)\text{ para todo }\delta \in T_{\alpha}\text{ y para todo }\theta \in \Theta_1.$$
+:::
+
+El objetivo es encontrar el test uniforme de máxima potencia.
+
+Con el fin de presentar los principales resultados vamos a distinguir
+entre contrastes de hipótesis simples y compuestas.
+
+En los **contrastes de hipótesis simples** tenemos que
+$\Theta_0=\{\theta_0\}$ y $\Theta_1=\{\theta_1\}$, es decir ambos
+conjuntos solo tienen un elemento. Por ejemplo un contraste de este tipo
+es $$H_0:\mu=5$$ frente a $$H_0:\mu=6,$$ siendo $\mu$ la media de una
+variable aleatoria.
+
+En un **contraste de hipótesis compuestas** tenemos que $\Theta_0=$ o/y
+$\Theta_1$ tienen más de un elemento. Siguiendo con el ejemplo anterior
+un ejemplo de un contraste de este tipo es $$H_0:\mu=5$$ frente a
+$$H_0:\mu\neq 5.$$
+
+Comenzamos con el caso de hipótesis parmaétricas simples.
+
+## Contrastes de hipótesis paramétricas simples. Teoría de Neyman-Pearson
+
+En este tipo de contraste los subconjuntos del espacio paramétrico solo
+tienen un elemento, es decir $\Theta_0 =\{\theta_0\}$ y
+$\Theta_1 =\{\theta_1\}$ y por tanto los errores de ambos tipos son
+cantidades fijas.
+
+::: {#thm-label0}
+(**Neyman-Pearson**) Sea $X\sim F(x,\theta)$,
+$\Theta = \{\theta_0,\theta_1\}$, $\mathbf X =(X_1,X_2,\ldots,X_n)$, una
+muestra aleatoria simple de la población $X$, $\alpha$ fijo con
+$0<\alpha <1$. Para contrastar la hipótesis nula $H_0:\theta=\theta_0$
+frente a la hipótesis alternativa $H_1:\theta=\theta_1$, el test de
+región crítica:
+$$S_1=\left\{\mathbf{x}\in Sop(\mathbf X)\left| \frac{L(\mathbf x,\theta_1)}{L(\mathbf x,\theta_0)}\ge k\right.\right\}$$
+y región de aceptación:
+$$S_0=\left\{\mathbf{x}\in Sop(\mathbf X)\left| \frac{L(\mathbf x,\theta_1)}{L(\mathbf x,\theta_0)}< k\right.\right\}$$
+con $k>0$, que además tenga tamaño $\alpha$, es decir
+$\alpha=P(\mathbf X \in S_1 | \theta=\theta_0)$, cumple que es el test
+de máxima potencia en la clase de los tests $T_{\alpha}$.
+:::
+
+Tenemos las siguientes observaciones en este caso.
+
+::: {.remark}
+-   Si la distribución es de tipo continuo siempre se cumple que el test
+    alcanza el tamaño, obteniéndose el test de extensión $\alpha$.
+
+-   Si la distribución es de tipo discreto, en general, el test de
+    máxima potencia será de extensión menor que $\alpha$.
+:::
+
+::: {#exm-label2}
+Sea $X \sim N(\mu, \sigma^2)$ con $\sigma^2$ conocida. Se considera una
+muestra aleatoria simple de tamaño $n$ de $X$. Obtener el test de máxima
+potencia y extensión $\alpha$ para el test (contraste):
+$$H_0: \mu= \mu_0$$ frente a $$H_1:  \mu=\mu_1.$$
+
+Si $X \sim N(\mu, \sigma^2=4)$ representa la duración en días de una
+determinada enfermedad y se considera la duración de una muestra de 9
+enfermos resultando en días: 5,3,4,2,6,4,5,3,4, aplicar los resultados
+del ejemplo anterior, para decidir entre: $$H_0: \mu= 3$$ frente a
+$$H_1:  \mu= 4 .$$
+
+con una extensión $\alpha=0.05$.
+:::
+
+::: {#prp-label0}
+Sea $X\sim F(x,\theta)$, $\Theta = \{\theta_0,\theta_1\}$,
+$\mathbf X =(X_1,X_2,\ldots,X_n)$, una muestra aleatoria simple de la
+población $X$, $\alpha$ fijo con $0<\alpha <1$. Bajo las condiciones del
+teorema de Neyman-Pearson, si $X\sim \epsilon (1)$, el test (contraste)
+de máxima potencia y nivel de significación $\alpha$ para el test
+$$H_0: \theta= \theta_0$$ frente a $$H_1:  \theta=\theta_1,$$ viene dado
+por:
+
+Si $A(\theta)$ es monótona creciente (decreciente)
+
+-   En el caso $\theta_0 < \theta_1$,
+
+$$\delta(\mathbf x)=\left\{
+     \begin{array}{cc}
+      0 &  \text{si } T(\mathbf x) <(>) c \\ 
+      1 &  \text{si } T(\mathbf x) \ge(\le) c. \\ 
+      \end{array} 
+     \right.$$
+
+-   En el caso $\theta_0 > \theta_1$, 
+
+$$\delta(\mathbf x)=\left\{
+     \begin{array}{cc}
+      0 & \text{si } T(\mathbf x) >(<) c_1, \\ 
+      1 & \text{si }  T(\mathbf x) \le(\ge) c_1. \\ 
+      \end{array} 
+     \right.$$
+
+Según la forma de la región crítica $c$ o $c_1$ se obtienen de una de
+las condiciones $$P(T(\mathbf X) \le(\ge) c| \theta=\theta_0)=\alpha.$$
+
+De forma análoga para la constante $c_1$.
+:::
+
+::: {#exm-label3}
+Sea $X\sim Exp(\theta)$. Dada una m.a.s. de tamaño $n$, obtener el test
+de máxima potencia y extensión $\alpha$ para el test (contraste)
+$$H_0: \theta= \theta_0$$ frente a $$H_1:  \theta=\theta_1.$$
+:::
+
+::: {#exm-label4}
+Sea $X\sim N(\mu,\sigma ^2)$ con $\mu$ conocida y
+$\sigma^2 \in \Theta = \mathbb R^+$. Dada una m.a.s. de tamaño $n$,
+obtener el test de máxima potencia y extensión $\alpha$ para el test
+(contraste) $$H_0: \sigma^2= \sigma_0^2$$ frente a
+$$H_1:  \sigma^2=\sigma_1^2.$$
+:::
+
+Vamos a detallar ahora un elemento de especial importancia como es el
+$p$-valor. Como veremos en las prácticas el $p$-valor será el elemento
+principal para la toma de decisiones en un contraste de hipótesis.
+
+**p-valor**
+
+Dada una muestra concreta $\mathbf x' \in Sop(\mathbf X)$, si
+consideramos el valor
+$$k'=\frac{L(\mathbf x', \theta_1)}{L(\mathbf x', \theta_0)}$$ tenemos
+que una región de rechazo en la forma
+$$S'_1=\left\{\mathbf{x}\in Sop(\mathbf X)\left| \frac{L(\mathbf x,\theta_1)}{L(\mathbf x,\theta_0)}\ge k'\right.\right\},$$
+será la región de rechazo más grande que podemos considerar para la cual
+nuestra muestra rechaza la hipótesis nula y, por tanto,
+$$p=P(\mathbf X \in S'_1 | \theta=\theta_0)$$ será el nivel de
+significación más alto para el cual, con la muestra que tenemos, se
+rechazaría la hipótesis nula. Este valor se conoce como **p-valor**.
+
+En general, el p-valor se puede interpretar como una medida de
+compatibilidad de los datos con la hipótesis nula. Cuanto más pequeño es
+el p-valor más incompatibles son los datos con la hipótesis nula, y se
+rechaza como cierta. El nivel a partir del cual consideramos que el
+p-valor es suficientemente bajo como para que haya incompatibilidad es
+el nivel de significación $\alpha$ que está prefijado de antemano.
+
+En concreto tenemos que fijado el **nivel de significación** $\alpha$,
+que es la probabilidad (riesgo) máxima que estamos dispuestos a aceptar
+de equivocarnos si aceptamos $H_1$, y lo comparamos con el $p-valor$. Si
+$\alpha \geq p-valor$ aceptamos $H_1$ y en caso contrario aceptamos
+$H_0$.
+
+El p-valor se calcula a partir de un estadístico, y este estadístico se
+conoce como **estadístico de contraste**.
+
+**Recomendación sobre el uso de p-valores:** Veamos a continuación una
+serie de recomendaciones sobre el uso de p-valores (ver Wasserstein y
+Lazar, 2016).
+
+Es bastante común reducir la decisión sobre unas hipótesis al uso del
+p-valor, sin embargo, hay muchos más elementos que entran en juego.
+
+El primer elemento son la suposiciones iniciales que estamos llevando
+cabo. Por ejemplo, en algunas técnicas supondremos que la variable que
+estamos utilizando sigue una distribución normal. El p-valor puede ser
+incorrecto si las suposiciones iniciales no son correctas, y por tanto
+el p-valor puede estar rechazando esas suposiciones iniciales sin
+verificar.
+
+El segundo elemento es la toma de los datos. Si los datos no se han
+elegido adecuadamente, por ejemplo si los valores de la muestra no son
+independientes, el p-valor no se calculará correctamente.
+
+Siempre que sea posible hay que dar un contexto y otras evidencias sobre
+el contraste que estemos utilizando. Por ejemplo, si es posible, se debe
+incluir información gráfica que apoye la conclusión final.
+
+En general, es necesario que se aporte la mayor información posible.
+Esto incluye, como se han tomado los datos, estadísticos en los que se
+basan los contrastes, p-valor exacto e información gráfica.
+
+Suele haber una serie de interpretaciones erróneas sobre el uso de los
+p-valores. A continuación, señalamos algunos de los casos más
+importantes (ver Greenland et al., 2016, para más detalles).
+
+**Interpretaciones erróneas del p-valor:**
+
+**1. El p-valor es la probabilidad de que la hipótesis nula sea
+cierta.** La hipótesis nula es cierta o falsa, y la conclusión con el
+p-valor se hace bajo la suposición de que la hipótesis nula es cierta.
+Por tanto no calcula la probabilidad de que sea cierta o no, calcula
+
+acuerdo al patrón probabilístico bajo la suposición de que la hipótesis
+nula es cierta.
+
+**2. Un resultado significativo (por ejemplo, p-valor $\le$ 0.05)
+significa que la hipótesis nula es falsa.** Un p-valor bajo implica que
+lo observado en la muestra, a través del estadístico, es incompatible
+con todas las hipótesis efectuadas sobre los datos, lo que incluye
+suposiciones iniciales, hipótesis nula, etc. Puede ser bajo porque
+algunas de las suposiciones iniciales sean erróneas.
+
+**3. Un p-valor no significativo (por ejemplo, p-valor \> 0.05)
+significa que la hipótesis nula es cierta.** Un p-valor alto solamente
+sugiere que el valor observado del estadístico de contraste no es
+inusual bajo las suposiciones hechas para el cálculo del p-valor,
+siempre que estas sean correctas, y por tanto no tenemos evidencias que
+no sea cierta. Como hemos dicho anteriormente, siempre que sea posible
+es recomendable aportar otras evidencias (estadísticos, representaciones
+gráficas, etc.) que apoyen la conclusión final.
+
+**4. Un p-valor=0.05 y un p-valor $\le$ 0.05 significan lo mismo.** Eso
+sería lo mismo que decir que un longitud de 2 m es lo mismo que decir
+que es menor o igual que 2m. Siempre que sea posible hay que indicar el
+valor exacto del p-valor.
+
+Actualmente se están realizando otras propuestas como los p-valores de
+segunda generación que mejoran las interpretaciones de las consecuencias
+de un contraste de hipótesis (ver Blume et al., 2019).
+
+**Importancia de las hipótesis:** Como hemos visto el hecho de que se
+acoten las probabilidades de error de tipo I, y no las del error de tipo
+II, hace que las hipótesis nula y alternativa no sean simétricas. Al
+respecto de esto, Cristobal (1995) escribe: \" *Hay que hacer notar que
+la hipótesis nula y la alternativa no desempeñan, en general, un papel
+simétrico, ya que suele tomarse como hipótesis nula la que representa
+una situación mantenida anteriormente, o bien una situación
+singularmente importante. De este modo el error de tipo I es el más
+importante de los dos y tiene sentido actuar de modo que se busque
+acotar la probabilidad de error de tipo I por un valor prefijado y
+dentro de esta clase restringida de tests, intentar minimizar la
+probabilidad de error de tipo II, lo que constituye la base filosófica
+de la teoría de Neyman y Pearson sobre optimización en test de
+hipótesis.*"
+
+## Contraste de hipótesis compuestas. Test de la razón de verosimilitudes
+
+En las aplicaciones a problemas reales no suelen plantearse, en general,
+contrastes de hipótesis simple y alternativa simple, pues las hipótesis
+alternativas no suelen ser tan precisas para que estén definidas por un
+único valor del parámetro. Por ello, vamos a estudiar en este tema
+contrastes de hipótesis donde al menos una de ellas es compuesta. En
+concreto estudiaremos los siguientes contrastes:
+
+::: center
+  ----- --------------------------- ----- ----------------------------------------
+    a\) $H_0:\theta=\theta_0$         b\) $H_0:\theta=\theta_0$
+        $H_1:\theta > \theta_0$           $H_1:\theta < \theta_0$
+                                          
+    c\) $H_0:\theta\le \theta_0$      d\) $H_0:\theta\ge\theta_0$
+        $H_1:\theta > \theta_0$           $H_1:\theta < \theta_0$
+                                          
+    e\) $H_0:\theta=\theta_0$         f\) $H_0:\theta\in [\theta_1,\theta_2]$
+        $H_1:\theta \ne \theta_0$         $H_1:\theta\notin [\theta_1,\theta_2]$
+  ----- --------------------------- ----- ----------------------------------------
+:::
+
+En los casos a)-d) anteriores es posible obtener tests uniformes de
+máxima potencia, siempre que nuestro modelo pertenezca a la familia de
+distribuciones que tienen la propiedad llamada \"cociente de
+verosimilitud monótono\".
+
+::: {#def-label6}
+Sea $X\sim F(x,\theta)$, $\theta \in \Theta \subset \mathbb R$ y
+$X_1,\ldots,X_n$ una muestra aleatoria simple de $X$. Decimos que $X$ o
+$F$ tienen la propiedad de cociente de verosimilitud monótono en el
+estadístico $R=R(X_1,\ldots,X_n)$, si para todo
+$\theta_0, \theta_1 \in \Theta$ con $\theta_0 < \theta_1$ se verifica
+que el cociente de verosimilitudes
+$L(\mathbf x,\theta_1)/L(\mathbf x,\theta_0)$, $R(\mathbf x)$.
+:::
+
+::: {.remark}
+A los efectos de la definición si $L(\mathbf x, \theta_0)=0$ y
+$L(\mathbf x, \theta_1) >0$, el cociente anterior se considerará igual a
+infinito.
+:::
+
+::: {#exm-label5}
+Estudiar si tienen cociente de verosimilitud monótono en algún
+estadístico los siguientes modelos:
+
+-   $X$ con distribución de Bernoulli de parámetro $p$: $X\sim b(p)$
+
+-   $X$ con distribución normal con varianza $\sigma ^2$ conocida:
+    $X\sim N(\mu,\sigma ^ 2)$
+
+-   $X$ con distribución normal con media $\mu$ conocida:
+    $X\sim N(\mu,\sigma ^ 2)$
+
+-   $X$ con distribución uniforme en el intervalo $(0,\theta)$:
+    $X\sim U(0,\theta )$
+:::
+
+Veamos la relación entre la familia exponencial uniparamétrica y la
+familia con la propiedad de cociente de verosimilitud monótono.
+
+::: {#prp-label1}
+Sea $X\sim F(x,\theta)$. Si $X$ pertenece a la familia exponencial
+uniparamétrica, es decir
+$$L(\mathbf x,\theta)=\exp\{A(\theta) T(\mathbf x) + B(\theta) + h(\mathbf x)\}                                                           ,$$
+con $A(\theta)$ monótona, entonces se verifica que si $A(\theta)$ es
+monótona creciente (decreciente) en $\theta$, entonces $X$ tiene
+cociente de verosimilitud monótono en el estadístico $T(X_1,\ldots,X_n)$
+($-T(X_1,\ldots,X_n )$).
+:::
+
+Bajo la propiedad de cociente de verosimilitud monótono, es posible
+obtener tests uniformes de máxima potencia para contrastes unilaterales.
+
+::: {#thm-label1}
+Sea $X\sim F(x,\theta)$, $\theta\in \Theta \subseteq \mathbb R$ y
+$X_1,\ldots,X_n$ una m.a.s.de $X$. Supongamos que $X$ tiene cociente de
+verosimilitud monótono en el estadístico $R=R(X_1,\ldots,X_n)$ para
+contrastar $H_0:\theta=\theta_0$ frente a $H_1:\theta >\theta_0$, se
+sigue que el test $$\delta_1(\mathbf x)=\left\{ 
+ \begin{matrix}
+ 0 & \text{si }R(\mathbf x)<  c \\
+ 1 & \text{si }R(\mathbf x)\ge c
+ \end{matrix}
+ \right.$$ que cumpla $P_{I,\delta_1}(\theta_0)=\alpha$, es el test
+uniforme de máxima potencia en la clase de tests
+$T_{\alpha}=\{\delta\in T|P_{I,\delta}(\theta_0)\le \alpha\}$, con
+$0<\alpha <1$.
+:::
+
+::: {.remark}
+El teorema anterior se extiende al contraste $H_0:\theta\le\theta_0$
+frente a $H_1:\theta >\theta_0$.
+:::
+
+De forma análoga se verifica:
+
+::: {#thm-label2}
+Sea $X\sim F(x,\theta)$, $\theta\in \Theta \subseteq \mathbb R$ y
+$X_1,\ldots,X_n$ una m.a.s.de $X$. Supongamos que $X$ tiene cociente de
+verosimilitud monótono en el estadístico $R=R(X_1,\ldots,X_n)$ para
+contrastar $H_0:\theta=\theta_0$ frente a $H_1:\theta <\theta_0$, se
+sigue que el test $$\delta_1(\mathbf x)=\left\{ 
+ \begin{matrix}
+ 0 & \text{si }R(\mathbf x) > c \\
+ 1 & \text{si }R(\mathbf x) \le c
+ \end{matrix}
+ \right.$$ que cumpla $P_{I\delta_1}(\theta_0)=\alpha$, es el test
+uniforme de máxima potencia en la clase de tests
+$T_{\alpha}=\{\delta\in T |P_{I,\delta}(\theta_0)\le \alpha\}$,
+$0<\alpha <1$.
+:::
+
+::: {.remark}
+El teorema anterior se extiende al contraste $H_0:\theta\ge\theta_0$
+frente a $H_1:\theta < \theta_0$.
+:::
+
+::: {#exm-label6}
+Sea $X\sim N(\mu, \sigma^2)$ con $\sigma^2$ conocido y
+$\mu\in \mathbb R$. Se considera una m.a.s de $X$ y queremos contrastar
+las hipótesis $$H_0: \mu \le \mu_0$$ frente a $$H_1: \mu > \mu _0$$
+
+-   Obtener el test uniforme de máxima potencia y extensión $\alpha$
+    para el contraste anterior.
+
+-   Estudiar la función potencia.
+:::
+
+::: {#exm-label7}
+Sea $X\sim N(\mu, \sigma^2)$ con $\mu$ conocido y
+$\sigma^2\in \mathbb R_+$. Se considera una m.a.s de $X$ y queremos
+contrastar las hipótesis $$H_0: \sigma^2 = \sigma^2 _0$$ frente a
+$$H_1: \sigma^2 < \sigma^2 _0$$
+
+-   Obtener el test uniforme de máxima potencia y extensión $\alpha$
+    para el contraste anterior.
+
+-   Estudiar la función potencia.
+:::
+
+Hemos visto que la obtención de tests uniformes de máxima potencia, solo
+es posible en los test de hipótesis simple y alternativa simple y en los
+contrastes unilaterales, bajo ciertas condiciones para la distribución.
+En los contrastes bilaterales, como comentaremos posteriormente, cuando
+se trata de distribuciones en la familia exponencial uniparamétrica, y
+bajo la restricción de utilizar tests insesgados, es posible también
+obtener contrastes UMP.
+
+Es importante por ello, para muchos problemas prácticos, disponer de
+métodos de construcción de contrastes, basados en principios razonables
+y que permitan diseñar el test según el problema planteado. El método
+más importante lo constituye el **test de la razón de verosimilitudes
+generalizado**, que guarda una estrecha relación con el principio de
+máxima verosimilitud.
+
+::: {#def-label7}
+Se llama razón de verosimilitudes generalizado para contrastar la
+hipótesis $H_0: \theta \in \Theta_0$ frente $H_1:\theta \in \Theta_1$ al
+cociente
+$$\lambda(\mathbf x)=\frac{\underset{\theta\in \Theta_0}{\sup}L(\mathbf x;\theta)}{\underset{\theta\in \Theta}{\sup}L(\mathbf x;\theta)}.$$
+:::
+
+::: {#def-label8}
+Un test de razón de verosimilitudes generalizado (RVG) para las
+hipótesis anteriores es aquel que tiene región critica de la forma
+$$S_1=\{\mathbf x\in Sop(X_1,\ldots,X_n) | \lambda(\mathbf x)< k\}$$
+
+Lo que indica que rechazamos H$_0$ cuando el cociente toma valores
+inferiores a un valor $k$, con $0<k<1$.
+
+Dicha constante $k$ se determina con la condición de que el test tenga
+extensión $\alpha$, es decir:
+$$\underset{\theta\in \Theta_0}{\sup}P((X_1,\ldots,X_n)\in S_1|\theta)=\alpha.$$
+:::
+
+::: {.remark}
+La principal dificultad en la construcción de este test es la obtención
+de la distribución del estadístico $\lambda(X_1,\ldots,X_n)$.
+:::
+
+::: {.remark}
+La idea del método se basa en que para cada muestra fija, la función de
+verosimilitud es un indicador de lo bien que explica el valor del
+parámetro los resultados obtenidos.
+:::
+
+::: {.remark}
+Para el contraste $H_0:\theta\in \Theta_0$ frente a la alternativa
+$H_1:\theta\in \Theta_1$ si $dim(\Theta)=q$ y $dim(\Theta_0)=q'$ se
+verifica, bajo ciertas condiciones, que el estadístico
+$-2 \log\lambda (\mathbf X)$ converge en distribución a una ji-cuadrado
+con $q-q'$ grados de libertad.
+:::
+
+::: {#exm-label8}
+Sea $X\sim N(\mu,\sigma ^2)$ con $\sigma^2$ desconocida, se considera
+una m.a.s. de tamaño $n$. Obtener la región crítica del contraste
+$H_0:\mu=\mu_0$ frente a $H_1:\mu \ne \mu_0$ y extensión $\alpha$,
+utilizando el test RVG.
+:::
+
+## Contrastes no parámetricos
+
+Como hemos visto en la sección anterior los hipótesis están referidas a
+parámetros que determinan la distribución de la variable y por tanto en
+su desarrollo aparece la función de verosimilitud. Sin embargo, pueden
+haber parámetros que no determinen la distribución, por ejemplo la
+mediana de la variable, sobre los que nos interese hacer un contraste, o
+hipótesis que no se refieran a parámetros sino por ejemplo a si la
+variable sigue una distribución normal.
+
+Los contrastes que se refieren a este tipo de hipótesis se conocen como
+contrastes no paramétricos. La base de estos contrastes suele ser un
+estadístico que mida la compatibilidad de los datos con la hipótesis
+nula, con la diferencia respecto de los contrastes paramétricos de que
+la propuesta del estadístico de contraste la hace el investigador en
+base a su conocimiento de la probabilidad y la estadística. Usualmente
+este estadístico es una medida de lo que se desvían los datos de la
+hipótesis nula.
+
+Vamos a desarrollar uno de estos contrastes con detalle en la siguiente
+sección.
+
+### El contraste $\chi^2$ (chi-cuadrado) de bondad de ajuste
+
+En esta sección vamos a desarrollar una de las técnicas más ampliamente
+utilizadas en la investigación como es el **contraste $\chi ^2$ de
+bondad de ajuste** desarrollado por Karl Pearson (1900). Este contraste
+o test es utilizado para contrastar, como hipótesis nula, que unos datos
+provienen de una distribución de probabilidad conocida. Se conoce como
+el test $\chi ^2$ porque en el cálculo del $p$-valor de este contraste
+se utiliza la distribución $\chi ^2$ y se dice que es de bondad de
+ajuste porque mide lo bueno que es un modelo probabilístico para
+modelizar datos aleatorios. Como hemos dicho antes, el objetivo del
+contraste chi cuadrado de bondad de ajuste es determinar si un conjunto
+de observaciones proviene de un modelo probabilístico determinado. Para
+el desarrollo de la técnica, vamos a empezar con el caso más sencillo, y
+posteriormente la adaptaremos a casos más complejos.
+
+El caso más sencillo es el caso en que las observaciones del experimento
+aleatorio que estamos realizando pueden encontrarse en $k$ clases
+distintas (en número finito y excluyentes entre si). Es decir, el
+espacio muestral es $\Omega =\left \{A_1,A_2,\cdots ,A_k \right \}$. El
+objetivo del test $\chi ^2$ es saber si las probabilidades de esos
+sucesos son iguales a unas probabilidades dadas
+$\left ( \text{ es decir, si }P(A_i)=p_i\text{, }i=1,\cdots ,k\right )$
+o alguna es distinta. En términos de hipótesis nula y alternativa, lo
+que se pretende es contrastar la hipótesis nula
+$$H_0:P(A_i)=p_i\text{, }i=1,\cdots ,k$$ frente a la hipótesis
+alternativa $$H_1:\text{Existe }i\text{ tal que }P(A_i)\neq p_i.$$
+
+Un ejemplo de esta situación es la siguiente.
+
+**Ejemplo 1:** Se realiza un cierto cruce entre cobayas, y los posibles
+colores para el cruce son
+$\left \{ A_1=rojo,A_2=negro,A_3=blanco\right\}$. Según un modelo
+propuesto por un genetista las clases anteriores deberían estar en la
+relación 9:3:4. ¿Puede considerarse que el modelo es válido?
+
+Es decir, se desea contrastar si las probabilidades de los sucesos
+anteriores son las dadas por el modelo o para alguna de esas clases esas
+probabilidades difieren de las supuestas por el modelo. En términos de
+hipótesis, lo que queremos contrastar es:
+$$H_0:\text{ }P(A_1)=\frac 9{16}\text{, }P(A_2)=\frac 3{16}\text{ y }%
+ P(A_3)=\frac 4{16}$$ frente a
+$$H_1:\text{Existe }i\text{ tal que }P(A_i)\neq p_i.$$
+
+En general, para llevar a cabo el contraste partiremos de un serie de
+observaciones independientes del fenómeno aleatorio (m.a.s.) y
+observaremos la frecuencia de los sucesos anteriores. De forma resumida
+ésto lo anotaremos en una tabla en la siguiente forma:
+
+::: center
+\begin{tabular}{|c|c|c|c|c|}
+ \hline
+ Clases & $A_1$ & $A_2$ & $\cdots $ & $A_k$ \\ \hline
+ $f_i$ & $f_1$ & $f_2$ & $\cdots $ & $f_k$ \\ \hline
+ \end{tabular}
+:::  
+
+ donde $f_i$= número de observaciones en la clase $A_i$,
+y se conoce como **frecuencia observada de la clase** $A_i$.
+
+**Ejemplo 1 (continuación):** Volviendo a nuestro ejemplo lo que
+tendríamos que hacer es realizar un serie de cruces y observar la
+frecuencia de cada uno de los colores. En concreto, en este ejemplo se
+llevan a cabo una serie de cruces y de un total de 64 descendientes se
+observa que 34 resultaron rojos, 10 negros y 20 blancos. Resumiendo esto
+en una tabla tendríamos: 
+
+::: center
+\begin{tabular}{|c|c|c|c|}
+ \hline
+ Clases & $A_1$ & $A_2$ & $A_3$ \\ \hline
+ $f_i$ & $f_1=34$ & $f_2=10$ & $f_3=20$ \\ \hline
+ \end{tabular}
+:::
+
+Observar que, si es cierto que $P(A_i)=p_i$, nosotros podríamos dar una
+aproximación de la frecuencia que cabría esperar para cada una de las
+clases bajo esas probabilidades. Para ello daros cuenta que si denotamos
+por $n$ el total de observaciones (es decir $n=\sum_{i=1}^kf_i$) tenemos
+la siguiente relación aproximada $$P(A_i)=p_i\simeq \frac{f_i}n,$$ donde
+estamos aproximando la probabilidad por la correspondiente proporción
+muestral, por lo que la frecuencia que se observa debería ser
+aproximadamente igual a $$f_i\simeq np_i(=\widehat{f}_i)$$ llamándose a
+este último valor, $\widehat{f}_i$, **frecuencia esperada de la clase**
+$A_i$.
+
+Por tanto, si $H_0$ es cierta, las frecuencias observadas $f_i$ y las
+esperadas $\widehat{f}_i$ deben tomar valores muy parecidos.
+
+Este razonamiento nos permite empezar a analizar nuestro problema en una
+primera aproximación. Para resolverlo bastaría, en un principio,
+comparar las frecuencias esperadas con las observadas para ver si
+difieren mucho o no. Si difieren mucho, eso nos da una idea de que las
+probabilidades que hemos considerado no deben de ser ciertas.
+
+**Ejemplo 1 (continuación):** En nuestro ejemplo tendríamos que $n=64$ y
+las frecuencias esperadas serían
+$$\widehat{f}_1=np_1=64\frac 9{16}=36\text{, }\widehat{f}_2=np_2=64\frac
+ 3{16}=12\text{ y }\widehat{f}_3=np_3=64\frac 4{16}=16\text{.}$$
+
+Si consideramos las frecuencias osbervadas vemos que no son muy
+diferentes (lo que está claro es que no tienen por qué ser iguales), lo
+cual apoya la idea de que las probabilidades que hemos considerado deben
+de ser ciertas.
+
+Sin embargo, nosotros necesitamos una medida que sea más objetiva y por
+otro lado que nos de una idea global de lo que difieren las frecuencias
+observadas de las esperadas. Para ello, en primer lugar, vemos como
+medir en cada clase las diferencias. Obviamente, lo usual es tomar la
+diferencia entre las frecuencias observadas y las esperadas, es decir
+tomar $f_i-\widehat{f}_i$, y sumando todas estas diferencias podríamos
+tener una idea global de como difieren. Sin embargo, como puede haber
+diferencias positivas y negativas al sumarse se podrían ir compensando y
+la suma ser muy baja, a pesar de haber diferencias grandes, por lo que
+habría que tomar una medida positiva de la diferencia. Esto puede
+conseguirse simplemente elevando al cuadrado estas diferencias, y tomar
+la suma de esas diferencias al cuadrado. Sin embargo, esto no es todavía
+suficiente, por que podría darse el caso de que la diferencia entre las
+frecuencias en dos clases distintas fuese por ejemplo 2, y las
+frecuencias esperadas en cada caso fuesen 20 y 4, por ejemplo. Es claro
+que una diferencia de 2 unidades sobre 20 esperadas es muy poca en
+comparación con una diferencia de 2 unidades sobre 4 esperadas, sin
+embargo la contribución de las dos diferencias a la suma de cuadrados
+sería la misma.
+
+Para evitar esto, lo que haremos será dividir cada diferencia al
+cuadrado por la frecuencia esperada, con lo que miramos las diferencias
+pero en proporción a lo que cabe esperar. De esta forma, la medida
+global que consideramos para medir las diferencias entre las frecuencias
+observadas y las esperadas bajo la hipótesis nula vendrá dada por
+$$\chi ^2=\sum_{i=1}^k\frac{\left( f_i-\widehat{f}_i\right) ^2}{\widehat{f}_i},$$
+que se conoce como el **estadístico chi-cuadrado de Pearson** para el
+estudio de bondad de ajuste. Éste va a ser nuestro estadístico de
+contraste para contrastar la hipótesis nula
+$$H_0:P(A_i)=p_i\text{, }i:1,\cdots ,k$$ frente a la hipótesis
+alternativa $$H_1:\text{Existe }i\text{ tal que }P(A_i)\neq p_i.$$
+y a partir de esto ver, para valores altos de la variable, cuales tienen
+menor probabilidad de ser observados bajo la hipótesis nula. La
+distribución exacta no es posible conocerla, por lo que se da una
+aproximación de esta. En concreto se tiene que para $n$ suficientemente
+grande, y si la hipótesis nula es cierta, el estadístico anterior tiene
+una distribución próxima a una chi-cuadrado con $k-1$ grados de
+libertad, lo que escribiremos como
+$$\chi ^2=\sum_{i=1}^k\frac{\left( f_i-\widehat{f}_i\right) ^2}{\widehat{f}_i}\rightarrow_{d} \chi _{k-1}^2\text{.}$$
+
+A partir de esto podemos fijar nuestro criterio en función de que
+probabilidades hay de observar un valor tan alto como el que observamos
+de acuerdo a la hipótesis nula. En concreto esa probabilidad será el
+$p$-valor del contraste, y se calcula como
+$$p-valor=P(\chi^2_{k-1} > \chi^2).$$
+
+Por tanto si la hipótesis nula es cierta y este $p$-valor es muy bajo,
+querrá decir que es un valor bastante improbable bajo ese modelo de
+probabilidad y por tanto la muestra es incompatible con el modelo
+probabilístico considerado en la hipótesis nula y por tanto lo
+rechazaremos. En caso contrario no hay evidencia empírica en contra de
+ese modelo probabilístico y lo consideraremos como valido y aceptaremos
+la hipótesis nula. Como siempre, el umbral de cuando ese $p$-valor es
+bajo o alto estará fijado por el nivel de significación $\alpha$.
+
+Podemos ver en el siguiente ejemplo donde haremos varias simulaciones
+del modelo establecido por la hipótesis nula junto con el valor del
+estadístico $\chi^2$ y veremos esos valores en relación a la densidad de
+la distribución $\chi^2_2$ y el valor crítico $\chi^2_{2,0.99}$.
+
+```{r, warning=FALSE}
+simul <- rmultinom(20, 64, prob=c(9/16, 3/16, 4/16))
+
+curve(dchisq(x, 2), form=0, to=20, ylab="Func. densidad", main="Simulación 
+      del estadístico chi-cuadrado")
+abline(0,0)
+abline(v=qchisq(0.99, 2), col="red")
+for(i in 1:20){
+  points(chisq.test(simul[,i], p=c(9/16, 3/16, 4/16))$statistic, 0, col="blue")
+}
+```
+
+
+```{r, echo=FALSE}
+f.obs.ej1 <- c(34, 10, 20) #frecuencias observadas
+
+prob.ej1 <- c(9/16, 3/16, 4/16) #probabilidades bajo la hipotesis nula
+```
+
+**Ejemplo 1 (continuación)**: Como observamos en este caso el valor del
+estadístico es $\chi^2$=`r chisq.test(f.obs.ej1, p=prob.ej1)$statistic` y el $p$-valor es igual a `r chisq.test(f.obs.ej1, p=prob.ej1)$p.value` que es un valor muy superior a cualquier nivel de signifación
+$\alpha$=0.05 o 0.01 que consideremos. Por lo tanto los datos son
+compatibles con el modelo probabilístico propuesto en la hipótesis nula
+y podemos considerarlo como válido.
+
+Hemos dicho que este era el caso más sencillo. Otros casos mas complejos
+son los siguientes.
+
+Uno es el caso en que las probabilidades no están completamente
+especificadas y dependen de unos parámetros que desconocemos como es el
+caso siguiente.
+
+**Ejemplo 2** Se clasificaron 1000 individuos de una población según el
+sexo y el daltonismo obteniéndose los siguientes datos
+
+::: center
+\begin{tabular}{ccc|}
+ \multicolumn{1}{c|}{} & Masculino & \multicolumn{1}{c}{Femenino} \\ 
+ \cline{2-3}
+ \multicolumn{1}{c|}{Normales} & \multicolumn{1}{c|}{442} & 514 \\ \cline{2-3}
+ \multicolumn{1}{c|}{Daltónicos} & \multicolumn{1}{c|}{38} & 6 \\ 
+ \cline{2-3}
+ \end{tabular}
+:::
+
+Según un modelo genético las probabilidades son las siguientes:
+
+::: center
+\begin{tabular}{ccc|}
+ \multicolumn{1}{c|}{} & Masculino & \multicolumn{1}{c}{Femenino} \\ 
+ \cline{2-3}
+ \multicolumn{1}{c|}{Normales} & \multicolumn{1}{c|}{$\frac p2$} & $\frac{p^2}%
+ 2+pq$ \\ \cline{2-3}
+ \multicolumn{1}{c|}{Daltónicos} & \multicolumn{1}{c|}{$\frac q2$} & $\frac{%
+ q^2}2$ \\ \cline{2-3}
+ \end{tabular}
+::: 
+ donde $q=1-p$ es la proporción de genes defectuosos en
+la población. ¿Concuerdan estos datos con el modelo?
+
+En este caso el espacio muestral sería
+$\Omega =\{A_1=\{\text{normal, varón}\}, A_2=\{\text{normal, hembra}\}, A_3=\{\text{daltónico, varón}\}, A_4=\{\text{daltónica, hembra}\}\}$
+y se trata de contrastar las hipótesis:
+$$H_0:\text{ }P(A_1)=\frac p2\text{, }P(A_2)=\frac{p^2}2+pq\text{, }%
+ P(A_3)=\frac q2\text{ y }P(A_4)=\frac{q^2}2$$ frente a
+$$H_1:\text{Existe }i\text{ tal que }P(A_i)\neq p_i.$$
+
+Otras situaciones son las siguientes. La primera es el caso en que la
+variable toma valores discretos pero en un conjunto infinito como es el
+caso de una distribución de Poisson. En este caso el número de clases es
+infinito, sin embargo el razonamiento anterior es para un conjunto de
+clases finitas. Y el último caso es en el que la variable sea continua y
+queramos ajustarla a un modelo probabilístico continuo y por tanto no
+tenemos tampoco un número finito de clases. Además, observamos en los
+dos últimos ejemplos que los parámetros de los modelos Poisson y normal
+tampoco estan definidos. Esos dos últimos casos no los vamos a tratar
+puesto que ya tenemos una solución alternativa para la distribución
+normal y el caso de la distribución de Poisson es más residual y no
+tiene peso en la asignatura.
+
+Vamos entonces a tratar el ejemplo 2. Como hemos dicho, no podemos
+calcular las frecuencias observadas puesto que las probabilidades
+dependen de unos parámetros que desconocemos. Para poder realizar el
+contraste lo que haremos es estimar estos parámetros desconocidos a
+partir de la muestra mediante el **método de máxima verosimilitud**.
+Vemos en este ejemplo como se realiza.
+
+**Ejemplo 2 (continuación):** En el ejemplo 2 hemos de construir la
+función de verosimilitud que viene dada por
+$$L(f_1,f_2,f_3,f_4,p)=\left( \frac p2\right) ^{f_1}\left( \frac{p^2}%
+ 2+p(1-p)\right) ^{f_2}\left( \frac{1-p}2\right) ^{f_3}\left( \frac{(1-p)^2}%
+ 2\right) ^{f_4},$$ y tomando el logaritmo neperiano tenemos
+$$\begin{aligned}
+ \ln L &=&f_1\ln \left( \frac p2\right) +f_2\ln \left( \frac{p^2}%
+ 2+p(1-p)\right) +f_3\ln \left( \frac{1-p}2\right) +f_4\ln \left( \frac{%
+ (1-p)^2}2\right) \\
+ &=&f_1\ln \left( p\right) -f_1\ln \left( 2\right) +f_2\ln \left( \frac{p^2}%
+ 2+p(1-p)\right) +f_3\ln \left( 1-p\right) -f_3\ln (2) \\
+ &&+2f_4\ln \left( 1-p\right) -f_4\ln (2) \\
+ &=&442\ln \left( p\right) -442\ln \left( 2\right) +514\ln \left( \frac{p^2}%
+ 2+p(1-p)\right) +38\ln \left( 1-p\right) -38\ln (2) \\
+ &&+12\ln \left( 1-p\right) -6\ln (2)\text{.}
+ \end{aligned}$$
+
+Tenemos ahora que derivar respecto de $p$ e igualar a cero. Si derivamos
+e igualamos a cero tenemos $$\begin{aligned}
+ \frac{\partial \ln L}{\partial p} &=&\frac{442}p+\frac{514}{p-p^2/2}\left(
+ 1-p\right) -\frac{38}{1-p}-\frac{12}{1-p} \\
+ \  &=&\frac{442\left( \frac{p^2}2+p(1-p)\right) (1-p)+514(1-p)^2p-50p\left( 
+ \frac{p^2}2+p(1-p)\right) }{p\left( \frac{p^2}2+p(1-p)\right) (1-p)}=0
+ \end{aligned}$$ de donde es claro que hemos de buscar el valor de $p$
+que anula el numerador es decir resolver la ecuación
+$$442\left( \frac{p^2}2+p(1-p)\right) (1-p)+514(1-p)^2p-50p\left( \frac{p^2}%
+ 2+p(1-p)\right) =0,$$ si desarrollamos la expresión de la derecha y
+simplificamos nos queda $$760p^3-1741p^2+956p=0$$ si dividimos por $p$
+($p>0)$ nos queda que la ecuación anterior es equivalente a
+$$760p^2-1741p+956=0,$$ que es una ecuación de segundo grado con
+soluciones $$\widehat{p}=\frac{1741\pm \sqrt{12481}}{1520}=
+ \begin{array}{cc}
+ \diagup  & 0.9129 \\ 
+ &  \\ 
+ \diagdown  & 1.2189.
+ \end{array}$$
+
+Dado que $p$ es una probabilidad debe ser un número entre cero y uno y
+por lo tanto nos quedamos con la solución $\widehat{p}=0.9129$. A partir
+de esta estimación podemos calcular las frecuencias esperadas
+sustituyendo $p$ por su valor estimado $\widehat{p}$, obteniéndose los
+siguientes resultados: 
+
+\begin{tabular}{|ccc|}
+ \hline
+ \multicolumn{1}{|c|}{$f_i$} & \multicolumn{1}{c|}{$\widehat{f}_i$} & $\frac{%
+ \left( f_i-\widehat{f}_i\right) ^2}{\widehat{f}_i}$ \\ \hline
+ \multicolumn{1}{|c|}{442} & \multicolumn{1}{c|}{$n\frac{\widehat{p}}2=$456.45
+ } & 0.4574 \\ \hline
+ \multicolumn{1}{|c|}{514} & \multicolumn{1}{c|}{$n\left( \frac{\widehat{p}^2}%
+ 2+\widehat{p}(1-\widehat{p})\right) =496.2068$} & 0.6167 \\ \hline
+ \multicolumn{1}{|c|}{38} & \multicolumn{1}{c|}{$n\frac{(1-\widehat{p})}%
+ 2=43.55$} & 0.7073 \\ \hline
+ \multicolumn{1}{|c|}{6} & \multicolumn{1}{c|}{$n\frac{(1-\widehat{p})^2}%
+ 2=3.7932$} & 1.2839 \\ \hline
+ \multicolumn{1}{c}{$n=\sum f_i=1000$} &  & \multicolumn{1}{c}{$\chi ^2=\sum 
+ \frac{\left( f_i-\widehat{f}_i\right) ^2}{\widehat{f}_i}=3.0653$}
+ \end{tabular}
+
+
+Bastaría ahora calcular el $p$-valor para resolver el problema. Sin
+embargo, hay que observar que los grados de libertad de la distribución
+chi-cuadrado que utilizamos para el cálculo del $p$-valor hay que
+modificarlos en función del número de parámetros que hemos tenido que
+estimar para hacer los cálculos de las probabilidades. En concreto al
+valor $k-1$ hay que restarle el número de parámetros estimados que en
+este caso es 1, y por los tanto el número de grados de libertad sería
+$k-2$. En nuestro caso tendríamos que este valor es 2.
+
+```{r, echo=FALSE}
+f.obs.ej2 <- c(442, 514, 38, 6)
+
+p <- c(0.9129)
+
+prob.ej2 <- c(p/2, p^2/2 + p*(1-p), (1-p)/2, (1-p)^2/2)
+```
+
+En este caso podemos calcular su valor con `R` (lo veremos en prácticas)
+y en concreto tenemos que $p$-valor= `r 1-pchisq(chisq.test(f.obs.ej2, p=prob.ej2)$statistic, 2)`. 
+
+Como observamos el $p$-valor es muy alto y no habría evidencia en contra
+del modelo probabilístico y lo consideramos como válido.
+
+Por último hacemos la siguiente observación.
+
+**Observación:** Si las frecuencias esperadas son mayores que 5, excepto
+una y esta es mayor que 0.5 la aproximación funciona bien. En el caso en
+que dos frecuencias esperadas sean pequeñas, entonces sería necesario
+que no fuesen menor que 1 y el resto mayor que 5. Si esto no ocurre
+uniremos clases hasta que las frecuencias esperada de las nuevas clases
+agrupadas superen el valor 5. A la hora de calcular el valor crítico
+tendremos que el número de clases $k$ está modificado con la
+reagrupación y habrá que tenerlo en cuenta.
