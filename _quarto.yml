@@ -12,7 +12,7 @@ book:
   title: "Fundamentos de inferencia"
   author: "Félix Belzunce & Mathieu Kessler"
   search: true
-  repo-url: https://github.com/mkesslerct/fundamentos_inferencia
+  repo-url: https://github.com/mkesslerct/apuntes_fundamentos_inferencia
   repo-actions: [edit]
   downloads: [pdf, epub]
   chapters:
