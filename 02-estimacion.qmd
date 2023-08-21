@@ -10,7 +10,7 @@ La *estimación* hace referencia al proceso de conseguir información sobre la d
 
 Distinguimos dos situaciones:
 
-- Tenemos decidido qué modelo usar para la distribución de $X$, es decir que asumimos que pertenece a una familia de distribuciones que admiten una densidad o una función puntual de probabilidad de una determinada forma. Supondremos que esta familia es paramétrica: la distribución depende de un parámetro, posiblemente multidimensional,  que varía en un dominio de $\mathbb{R}^p, p\in \mathbb{N}$. En este caso, la estimación consiste en sacar información, basándonose en los valores de la muestra,  sobre los parámetros desconocidos de la distribución de $X$. Hablamos de **estimación paramétrica**.
+- Tenemos decidido qué modelo usar para la distribución de $X$, es decir que asumimos que pertenece a una familia de distribuciones que admiten una densidad o una función puntual de probabilidad de una determinada forma. Supondremos que esta familia es paramétrica: la distribución depende de un parámetro, posiblemente multidimensional,  que varía en un dominio de $\mathbb{R}^p, p\in \mathbb{N}$. En este caso, la estimación consiste en sacar información, basándonos en los valores de la muestra,  sobre los parámetros desconocidos de la distribución de $X$. Hablamos de **estimación paramétrica**.
 
 ::: {.callout-note}
 ## Estimación paramétrica: ejemplos 
@@ -89,7 +89,7 @@ equivalentes muestrales:
 \mu_1(\theta)=\overline{X},\\
 \mu_2(\theta)=\overline{X^2},\\
 \vdots=\vdots,\\
-\mu_k(\theta)=\overline{X^k}.
+\mu_p(\theta)=\overline{X^p}.
 \end{align*}
 
  Calculemos para ilustrar el método los estimadores de
@@ -142,7 +142,7 @@ igualdad, $f$ representa o bien la función puntual de probabilidad o
 bien la función de densidad.
 
 ::: {#def-verosimilitud}
-Sea $X$ una v.a, con distribución especificada por$(X_1,\ldots,X_n)$, 
+Sea $X$ una v.a, con distribución especificada por 
 $x\mapsto f_X(x;\theta)$, donde $\theta$ es el vector de parámetros, de
 dimensión $p$. Consideramos una muestra aleatoria simple $(X_1,\ldots,X_n)$. 
 Para un valor concreto de $(X_1,\ldots,X_n)$, que denotamos por
@@ -260,7 +260,7 @@ el método de máxima verosimilitud proporciona un estimador cuya esperanza no c
 Un estimador es una variable aleatoria y el valor que toma depende de la muestra concreta que se extraiga. Disponer de conocimiento sobre la distribución del estimador, que corresponde a su *distribución en el muestreo*, es valioso, porque permite manejar el riesgo y el error que podemos cometer al aproximar un parámetro de interés por el valor del estimador asociado.
 
 #### Error cuadrático medio.
-Una primera medida para evaluar un estimador se obtiene al calcular su variabilidad en el muestreo. Es deseable que esta variabilidad sea pequeña para que el valor que se obtenga no varíe demasiado según la muestra concreta extraida. Para ello, se introduce el error cuadrático medio, *Mean Squared Error*, que mide la esperanza de la distancia al cuadrado entre el estimador y el parámetro que pretende aproximar:
+Una primera medida para evaluar un estimador se obtiene al calcular su variabilidad en el muestreo. Es deseable que esta variabilidad sea pequeña para que el valor que se obtenga no varíe demasiado según la muestra concreta extraída. Para ello, se introduce el error cuadrático medio, *Mean Squared Error*, que mide la esperanza de la distancia al cuadrado entre el estimador y el parámetro que pretende aproximar:
 
 :::{#def-mse}
 El error cuadrático medio del estimador $\hat{\theta}$ es la función de $\theta$ definida por
@@ -350,17 +350,17 @@ Podemos ver un ejemplo del anterior estimador en `R`.
 
 ```{r} 
 #| code-fold: false
-# mas de una distribucion normal de tamaño 100
+# mas de una distribución normal de tamaño 100
 muestra <- rnorm(100, 0, 1)
 
-#grafica del estimador de la función de densidad
+#gráfica del estimador de la función de densidad
 plot(
-    density(x = muestra, kernel = "rectangular", bw=0.5, from = -4, to = 4),
+    density(x = muestra, kernel = "rectangular", bw = 0.5, from = -4, to = 4),
     xlim = c(-5, 5),
-    ylim = c(0,0.5)
+    ylim = c(0, 0.5)
 )
 
-curve(dnorm(x,0,1), xlim=c(-4,4), add=TRUE, col = 4) 
+curve(dnorm(x, 0, 1), xlim = c(-4, 4), add = TRUE, col = 4) 
 ```
 
 En la expresión anterior hay dos elementos principales, la función $K$,
@@ -402,10 +402,10 @@ Vamos a repetir el ejemplo anterior con los núcleos anteriores.
 
 ```{r} 
 #| code-fold: false
-# mas de una distribucion normal de tamaño 100
+# mas de una distribución normal de tamaño 100
 muestra <- rnorm(100, 0, 1)
 
-#grafica del estimador de la función de densidad
+#gráfica del estimador de la función de densidad
 plot(
     density(x = muestra, kernel = "gaussian", bw=0.5, from = -4, to = 4),
     xlim = c(-5, 5),
@@ -420,16 +420,16 @@ valores de del estimador tipo núcleo dan buenas aproximaciones de la
 función de densidad.
 
 Para el principal resultado se supondrán las siguientes condiciones
-sobre la función de densidad, la función nucleo y el ancho de banda:
+sobre la función de densidad, la función núcleo y el ancho de banda:
 
 -   La densidad al cuadrado es integrable, admite derivada continua de
     segundo orden y esta al cuadrado es integrable. Seguiremos la
     notación $R(f'')=\int (f''(x))^2dx$.
 
 -   El núcleo es una función de densidad simétrica y acotada, con
-    momento de orden dos finito y al cuadrado es integrable. Seguiremos
+momento de orden dos finito y al cuadrado es integrable. Seguiremos
     en este caso la notación $R(K)=\int (K(x))^2dx$ y por $\mu_2(K)$ el
-    valor del momneto de orden 2 asociado a la densidad $K$.
+    valor del momento de orden 2 asociado a la densidad $K$.
 
 -   Conforme aumentamos el tamaño de muestra el ancho de banda, $h_n$,
     es una secuencia de valores positivos con límite 0 y $nh_n$ tienda a
@@ -460,10 +460,10 @@ tenemos las siguientes gráficas.
 
 ```{r} 
 #| code-fold: false
-# mas de una distribucion normal de tamaño 100
+# mas de una distribución normal de tamaño 100
 muestra <- rnorm(100, 0, 1)
 
-#grafica del estimador de la función de densidad
+#gráfica del estimador de la función de densidad
 plot(
     density(x = muestra, kernel = "gaussian", bw=0.2, from = -4, to = 4),
     xlim = c(-5, 5),
@@ -494,12 +494,12 @@ sencilla, es asumir que $f$ es la función de densidad de una
 distribución normal con desviación típica $\sigma$, quedando entonces
 que
 $$h_n=\left( \frac{8 \pi^{1/2}R(K)}{3\mu_2^2(K)n} \right)^{\frac{1}{5}}\sigma$$
-si $\sigma$ es la desvación típica de la variable de partida la podemos
-aproximar mediante la cuasidesvación típica muestral, $S$, y podemos
+si $\sigma$ es la desviación típica de la variable de partida la podemos
+aproximar mediante la cuasi-desvación típica muestral, $S$, y podemos
 aproximar el valor de $h_n$ mediante
 $$\hat h_n=\left( \frac{8 \pi^{1/2}R(K)}{3\mu_2^2(K)n} \right)^{\frac{1}{5}}S.$$
 
-Si adicionalmente cosnideramos el núcleo normal, lo anterior queda como
+Si adicionalmente consideramos el núcleo normal, lo anterior queda como
 $$\hat h_{n,RP}=\left( \frac{4}{3n}\right)^{1/5}S .$$
 
 Esta elección del ancho de banda se conoce como la "regla del pulgar".
@@ -508,14 +508,14 @@ Veamos un ejemplo en `R`.
 
 ```{r} 
 #| code-fold: false
-# mas de una distribucion normal de tamaño 100
+# mas de una distribución normal de tamaño 100
 muestra <- rnorm(100, 0, 1)
 
-# valor del ancho de banda segun la regla del pulgar
+# valor del ancho de banda segué la regla del pulgar
 
 bw.nrd(x = muestra)
 
-#grafica del estimador de la función de densidad
+#gráfica del estimador de la función de densidad
 plot(
     density(x = muestra, kernel = "gaussian", bw = "nrd", from = -4, to = 4),
     xlim = c(-5, 5),
@@ -532,14 +532,14 @@ seleccionarla con `R`. Veamos un ejemplo de como hacerlo.
 
 ```{r} 
 #| code-fold: false
-# mas de una distribucion normal de tamaño 100
+# mas de una distribución normal de tamaño 100
 muestra <- rnorm(100, 0, 1)
 
-#valor del ancho de banda con estimacion no parametrica de R(f")
+#valor del ancho de banda con estimación no paramétrica de R(f")
 
 bw.SJ(x = muestra, method = "dpi")
 
-#grafica del estimador de la función de densidad
+#gráfica del estimador de la función de densidad
 plot(
     density(x = muestra, kernel = "gaussian", bw="SJ", from = -4, to = 4),
     xlim = c(-5, 5),

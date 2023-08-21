@@ -99,10 +99,10 @@ Para $0\leq u\leq 1$, utilizamos la notación $z_u$ para denotar el
     alpha <- 0.05
     phi  <- tibble::tibble(
         x = seq(-5, 5, by = 0.01),
-        y = dt(x, df = 10)
+        y = dnorm(x)
     )
     vertices <- phi %>%
-    filter(between(x, qt(alpha/2, 10), qt(1 - alpha/2, 10)))   
+    filter(between(x, qnorm(alpha/2), qnorm(1 - alpha/2)))   
     phi %>%
         ggplot(aes(x, y)) +
         geom_line() +
