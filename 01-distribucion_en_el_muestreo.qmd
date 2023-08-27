@@ -336,5 +336,5 @@ Para obtener la densidad del cociente que nos interesa, procedemos como para la 
 
 
 
-Consideremos dos variables aleatorias normales $X$ e $Y$ con varianzas $\sigma_2^X$ y $\sigma_2^Y$, así como $X_1, \ldots, X_{n_1}$ y $Y_1, \ldots, Y_{n_2}$ dos muestras aleatorias simples de $X$ y $Y$ respectivamente. Una consecuencia de la @prp-F-Snedecor es que
-$$\frac{(n_1-1)S_{n_1}^X/\sigma_X^2}{(n_2-1)S_{n_2}^Y/\sigma_Y^2}\sim F_{n_1-1, n_2-1}.$$
+Consideremos dos variables aleatorias normales $X$ e $Y$ con varianzas $\sigma_2^X$ y $\sigma_2^Y$, así como $X_1, \ldots, X_{n_X}$ y $Y_1, \ldots, Y_{n_Y}$ dos muestras aleatorias simples de $X$ y $Y$ respectivamente. Una consecuencia de la @prp-F-Snedecor es que
+$$\frac{(n_X-1)S_{X}^2/\sigma_X^2}{(n_Y-1)S_{Y}^2/\sigma_Y^2}\sim F_{n_X-1, n_Y-1}.$$
